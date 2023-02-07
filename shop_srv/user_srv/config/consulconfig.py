@@ -1,0 +1,3 @@
+# Consul的配置信息
+CONSUL_HOST = "192.168.178.138"
+CONSUL_PORT = 8500

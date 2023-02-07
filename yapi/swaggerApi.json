@@ -1,0 +1,2343 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "mxshop",
+    "version": "last"
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "用户",
+      "description": "用户相关的接口"
+    },
+    {
+      "name": "商品",
+      "description": null
+    },
+    {
+      "name": "商品分类",
+      "description": null
+    },
+    {
+      "name": "品牌",
+      "description": null
+    },
+    {
+      "name": "品牌分类",
+      "description": null
+    },
+    {
+      "name": "用户留言",
+      "description": null
+    },
+    {
+      "name": "用户地址",
+      "description": null
+    },
+    {
+      "name": "用户收藏",
+      "description": null
+    },
+    {
+      "name": "订单",
+      "description": null
+    },
+    {
+      "name": "购物车",
+      "description": null
+    },
+    {
+      "name": "轮播图",
+      "description": null
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/u/v1/base/info/modify": {
+      "post": {
+        "tags": [
+          "用户"
+        ],
+        "summary": "修改个人信息",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "姓名"
+                },
+                "gender": {
+                  "type": "string",
+                  "description": "性别"
+                },
+                "birthday": {
+                  "type": "string",
+                  "description": "生日"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "邮箱"
+                }
+              },
+              "required": [
+                "name",
+                "gender",
+                "birthday",
+                "email"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {}
+            }
+          }
+        }
+      }
+    },
+    "/u/v1/base/send_sms": {
+      "post": {
+        "tags": [
+          "用户"
+        ],
+        "summary": "发送短信",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "mobile": {
+                  "type": "string",
+                  "description": "手机号码"
+                },
+                "type": {
+                  "type": "number",
+                  "description": "1 表示注册 2表示找回密码"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/u/v1/user/register": {
+      "post": {
+        "tags": [
+          "用户"
+        ],
+        "summary": "注册",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "短信验证码",
+                  "title": "短信验证码"
+                },
+                "mobile": {
+                  "type": "string",
+                  "description": "手机号码",
+                  "title": "手机号码"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "密码",
+                  "title": "密码"
+                }
+              },
+              "required": [
+                "code",
+                "mobile",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "用户id",
+                  "title": "用户id"
+                },
+                "nick_name": {
+                  "type": "string",
+                  "title": "昵称",
+                  "description": "昵称"
+                },
+                "token": {
+                  "type": "string",
+                  "title": "jwt的token",
+                  "description": "jwt的token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/u/v1/user/list": {
+      "get": {
+        "tags": [
+          "用户"
+        ],
+        "summary": "用户列表",
+        "description": "",
+        "parameters": [
+          {
+            "name": "pn",
+            "in": "query",
+            "required": false,
+            "description": "页码",
+            "type": "string"
+          },
+          {
+            "name": "psize",
+            "in": "query",
+            "required": false,
+            "description": "每页的数量",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/u/v1/user/pwd_login": {
+      "post": {
+        "tags": [
+          "用户"
+        ],
+        "summary": "登录-用户名/密码",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "mobile": {
+                  "type": "string",
+                  "description": "手机号码",
+                  "mock": {
+                    "mock": "18888888880"
+                  }
+                },
+                "password": {
+                  "type": "string",
+                  "description": "密码",
+                  "mock": {
+                    "mock": "admin123"
+                  }
+                },
+                "captcha": {
+                  "type": "string",
+                  "description": "验证码",
+                  "mock": {
+                    "mock": "@string"
+                  }
+                },
+                "captcha_id": {
+                  "type": "string",
+                  "description": "验证码id",
+                  "mock": {
+                    "mock": "@string"
+                  }
+                }
+              },
+              "required": [
+                "mobile",
+                "password",
+                "captcha",
+                "captcha_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "用户id"
+                },
+                "nick_name": {
+                  "type": "string",
+                  "description": "昵称"
+                },
+                "token": {
+                  "type": "string",
+                  "description": "jwt的token"
+                }
+              },
+              "required": [
+                "id",
+                "nick_name",
+                "token"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/base/v1/login-sms": {
+      "post": {
+        "tags": [
+          "用户"
+        ],
+        "summary": "登录-短信验证码",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "mobile": {
+                  "type": "string",
+                  "description": "手机号码"
+                },
+                "code": {
+                  "type": "string",
+                  "description": "短信验证码"
+                }
+              },
+              "required": [
+                "mobile",
+                "code"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "nick_name": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "nick_name",
+                "token"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/u/v1/base/captcha": {
+      "get": {
+        "tags": [
+          "用户"
+        ],
+        "summary": "获取验证码",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/g/v1/goods/68": {
+      "put": {
+        "tags": [
+          "商品"
+        ],
+        "summary": "修改商品信息",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "商品名称"
+                },
+                "shop_price": {
+                  "type": "number",
+                  "mock": {
+                    "mock": "20.6"
+                  },
+                  "description": "价格"
+                },
+                "goods_brief": {
+                  "type": "string",
+                  "description": "简介"
+                },
+                "desc": {
+                  "type": "string",
+                  "description": "详情"
+                },
+                "ship_free": {
+                  "type": "boolean",
+                  "description": "是否免运费",
+                  "mock": {
+                    "mock": "@boolean"
+                  }
+                },
+                "images": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "mock": {
+                      "mock": "@url"
+                    },
+                    "description": "轮播图片"
+                  }
+                },
+                "front_image": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@url"
+                  },
+                  "description": "封面图"
+                },
+                "stocks": {
+                  "type": "integer",
+                  "mock": {
+                    "mock": "100"
+                  },
+                  "description": "库存"
+                },
+                "market_price": {
+                  "type": "number",
+                  "mock": {
+                    "mock": "20.5"
+                  },
+                  "description": "市场价格"
+                },
+                "goods_sn": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@string"
+                  },
+                  "description": "商品编号"
+                },
+                "category": {
+                  "type": "integer",
+                  "mock": {
+                    "mock": "110"
+                  },
+                  "description": "分类"
+                },
+                "brand": {
+                  "type": "integer",
+                  "mock": {
+                    "mock": "3"
+                  },
+                  "description": "品牌id"
+                }
+              },
+              "required": [
+                "stocks",
+                "market_price",
+                "goods_sn",
+                "front_image",
+                "images",
+                "desc",
+                "shop_price",
+                "name",
+                "goods_brief",
+                "ship_free",
+                "category",
+                "brand"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/v1/goods/1": {
+      "patch": {
+        "tags": [
+          "商品"
+        ],
+        "summary": "修改商品状态",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "sale": {
+                  "type": "boolean",
+                  "description": "是否上架"
+                },
+                "new": {
+                  "type": "boolean",
+                  "description": "是否新品"
+                },
+                "hot": {
+                  "type": "boolean",
+                  "description": "是否热销"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/g/v1/goods/1": {
+      "delete": {
+        "tags": [
+          "商品"
+        ],
+        "summary": "删除商品",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "商品"
+        ],
+        "summary": "商品详情",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "shop_price": {
+                  "type": "number"
+                },
+                "goods_brief": {
+                  "type": "string"
+                },
+                "ship_free": {
+                  "type": "boolean"
+                },
+                "images": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "front_image": {
+                  "type": "string"
+                },
+                "desc": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "desc"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/g/v1/goods": {
+      "get": {
+        "tags": [
+          "商品"
+        ],
+        "summary": "商品列表",
+        "description": "",
+        "parameters": [
+          {
+            "name": "pmin",
+            "in": "query",
+            "required": false,
+            "description": "最低价格",
+            "type": "string"
+          },
+          {
+            "name": "pmax",
+            "in": "query",
+            "required": false,
+            "description": "最高价格",
+            "type": "string"
+          },
+          {
+            "name": "ih",
+            "in": "query",
+            "required": false,
+            "description": "是否热门",
+            "type": "string"
+          },
+          {
+            "name": "in",
+            "in": "query",
+            "required": false,
+            "description": "是否最新",
+            "type": "string"
+          },
+          {
+            "name": "it",
+            "in": "query",
+            "required": false,
+            "description": "是否tab栏",
+            "type": "string"
+          },
+          {
+            "name": "c",
+            "in": "query",
+            "required": false,
+            "description": "分类的id",
+            "type": "string"
+          },
+          {
+            "name": "pn",
+            "in": "query",
+            "required": false,
+            "description": "页码",
+            "type": "string"
+          },
+          {
+            "name": "pnum",
+            "in": "query",
+            "required": false,
+            "description": "每页的数量",
+            "type": "string"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "搜索关键词",
+            "type": "string"
+          },
+          {
+            "name": "b",
+            "in": "query",
+            "required": false,
+            "description": "品牌id",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "brand": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "logo": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "ctegory": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "desc": {
+                        "type": "string"
+                      },
+                      "desc_images": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "front_image": {
+                        "type": "string"
+                      },
+                      "goods_brief": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "number"
+                      },
+                      "images": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "is_hot": {
+                        "type": "boolean"
+                      },
+                      "is_new": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "on_sale": {
+                        "type": "boolean"
+                      },
+                      "ship_free": {
+                        "type": "boolean"
+                      },
+                      "shop_price": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "brand",
+                      "ctegory",
+                      "desc",
+                      "desc_images",
+                      "front_image",
+                      "goods_brief",
+                      "id",
+                      "images",
+                      "is_hot",
+                      "is_new",
+                      "name",
+                      "on_sale",
+                      "ship_free",
+                      "shop_price"
+                    ]
+                  }
+                },
+                "total": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "商品"
+        ],
+        "summary": "添加商品",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "shop_price": {
+                  "type": "number",
+                  "mock": {
+                    "mock": "20.5"
+                  }
+                },
+                "goods_brief": {
+                  "type": "string"
+                },
+                "ship_free": {
+                  "type": "boolean",
+                  "description": "是否免运费",
+                  "mock": {
+                    "mock": "@boolean"
+                  }
+                },
+                "images": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "mock": {
+                      "mock": "@url"
+                    }
+                  }
+                },
+                "front_image": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@url"
+                  }
+                },
+                "stocks": {
+                  "type": "integer",
+                  "mock": {
+                    "mock": "100"
+                  },
+                  "description": "库存"
+                },
+                "market_price": {
+                  "type": "number",
+                  "mock": {
+                    "mock": "20.5"
+                  }
+                },
+                "goods_sn": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@string"
+                  }
+                },
+                "category": {
+                  "type": "integer",
+                  "mock": {
+                    "mock": "110"
+                  }
+                },
+                "desc_images": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "商品详情图片"
+                },
+                "brand": {
+                  "type": "integer",
+                  "description": "品牌id",
+                  "mock": {
+                    "mock": "1"
+                  }
+                }
+              },
+              "required": [
+                "stocks",
+                "market_price",
+                "goods_sn",
+                "front_image",
+                "images",
+                "shop_price",
+                "name",
+                "goods_brief",
+                "ship_free",
+                "category",
+                "desc_images",
+                "brand"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/g/v1/goods/68/stocks": {
+      "get": {
+        "tags": [
+          "商品"
+        ],
+        "summary": "获取商品库存",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "stocks": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/g/v1/categorys/239": {
+      "put": {
+        "tags": [
+          "商品分类"
+        ],
+        "summary": "修改分类",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "level": {
+                  "type": "integer"
+                },
+                "parent": {
+                  "type": "integer"
+                },
+                "is_tab": {
+                  "type": "integer",
+                  "description": "1 表示设置tab 0表示不设置"
+                }
+              },
+              "required": []
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "商品分类"
+        ],
+        "summary": "删除分类",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {}
+            }
+          }
+        }
+      }
+    },
+    "/g/v1/categorys": {
+      "get": {
+        "tags": [
+          "商品分类"
+        ],
+        "summary": "商品分类列表",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "level": {
+                    "type": "integer"
+                  },
+                  "is_tab": {
+                    "type": "boolean"
+                  },
+                  "parent_category": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "level",
+                  "is_tab",
+                  "parent_category"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "商品分类"
+        ],
+        "summary": "添加分类",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "名称"
+                },
+                "level": {
+                  "type": "integer",
+                  "description": "1表示\"一级\" 2表示\"二级\"，3表示三级"
+                },
+                "parent": {
+                  "type": "integer",
+                  "description": "父类目"
+                },
+                "is_tab": {
+                  "type": "boolean",
+                  "description": "是否显示在tab页",
+                  "mock": {
+                    "mock": "@boolean"
+                  }
+                }
+              },
+              "required": [
+                "name",
+                "level",
+                "parent",
+                "is_tab"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "id"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "名称"
+                },
+                "category_type": {
+                  "type": "integer",
+                  "description": "1表示\"一级\" 2表示\"二级\"，3表示三级"
+                },
+                "parent_category": {
+                  "type": "integer",
+                  "description": "父类目"
+                },
+                "field_9": {
+                  "type": "string",
+                  "description": "是否显示在tab页"
+                },
+                "is_tab": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "category_type",
+                "parent_category",
+                "field_9",
+                "is_tab"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/g/v1/categorybrands/130366": {
+      "get": {
+        "tags": [
+          "商品分类"
+        ],
+        "summary": "获取分类品牌",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/g/v1/categorys/110": {
+      "get": {
+        "tags": [
+          "商品分类"
+        ],
+        "summary": "获取分类详情",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/g/v1/brands/1": {
+      "put": {
+        "tags": [
+          "品牌"
+        ],
+        "summary": "修改品牌",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@string"
+                  },
+                  "minLength": 3,
+                  "maxLength": 10
+                },
+                "logo": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@url"
+                  },
+                  "format": "uri"
+                }
+              },
+              "required": []
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "品牌"
+        ],
+        "summary": "删除品牌",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/g/v1/brands": {
+      "get": {
+        "tags": [
+          "品牌"
+        ],
+        "summary": "品牌列表",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "品牌"
+        ],
+        "summary": "添加品牌",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@string"
+                  },
+                  "minLength": 3,
+                  "maxLength": 10
+                },
+                "logo": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@url"
+                  }
+                }
+              },
+              "required": []
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/g/v1/categorybrands/1": {
+      "put": {
+        "tags": [
+          "品牌分类"
+        ],
+        "summary": "修改品牌分类",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "category_id": {
+                  "type": "integer",
+                  "description": "类别id"
+                },
+                "brand_id": {
+                  "type": "integer",
+                  "description": "品牌id"
+                }
+              },
+              "required": [
+                "category_id",
+                "brand_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "品牌分类"
+        ],
+        "summary": "删除品牌分类",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/g/v1/categorybrands": {
+      "get": {
+        "tags": [
+          "品牌分类"
+        ],
+        "summary": "品牌分类列表",
+        "description": "",
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "query",
+            "required": false,
+            "description": "分类的id",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "品牌分类"
+        ],
+        "summary": "添加品牌分类",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "category_id": {
+                  "type": "integer",
+                  "description": "分类id"
+                },
+                "brand_id": {
+                  "type": "integer",
+                  "description": "品牌id"
+                }
+              },
+              "required": [
+                "brand_id",
+                "category_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "记录id"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/up/v1/message": {
+      "post": {
+        "tags": [
+          "用户留言"
+        ],
+        "summary": "添加留言",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "integer",
+                  "description": "留言类型: 1(留言),2(投诉),3(询问),4(售后),5(求购)",
+                  "mock": {
+                    "mock": "1"
+                  }
+                },
+                "subject": {
+                  "type": "string",
+                  "description": "主题"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "留言内容"
+                },
+                "file": {
+                  "type": "string",
+                  "description": "上传的文件",
+                  "mock": {
+                    "mock": "@url"
+                  }
+                }
+              },
+              "required": [
+                "type",
+                "subject",
+                "message",
+                "file"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "记录id"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "用户留言"
+        ],
+        "summary": "留言列表",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "integer"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "integer"
+                  },
+                  "user_id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/up/v1/address/1": {
+      "delete": {
+        "tags": [
+          "用户地址"
+        ],
+        "summary": "删除地址",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "用户地址"
+        ],
+        "summary": "更新地址",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "province": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@province"
+                  }
+                },
+                "city": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@city"
+                  }
+                },
+                "district": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@region"
+                  }
+                },
+                "address": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@name"
+                  }
+                },
+                "signer_name": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@name"
+                  }
+                },
+                "signer_mobile": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "18787878787"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/up/v1/address": {
+      "get": {
+        "tags": [
+          "用户地址"
+        ],
+        "summary": "地址列表",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "district": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "integer"
+                  },
+                  "province": {
+                    "type": "string"
+                  },
+                  "signer_mobile": {
+                    "type": "string"
+                  },
+                  "signer_name": {
+                    "type": "string"
+                  },
+                  "user_id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "用户地址"
+        ],
+        "summary": "添加地址",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "province": {
+                  "type": "string",
+                  "description": "省份",
+                  "mock": {
+                    "mock": "@province"
+                  }
+                },
+                "city": {
+                  "type": "string",
+                  "description": "城市",
+                  "mock": {
+                    "mock": "@city"
+                  }
+                },
+                "district": {
+                  "type": "string",
+                  "description": "地区",
+                  "mock": {
+                    "mock": "@region"
+                  }
+                },
+                "address": {
+                  "type": "string",
+                  "description": "具体地址",
+                  "mock": {
+                    "mock": "@name"
+                  }
+                },
+                "signer_name": {
+                  "type": "string",
+                  "description": "收货人",
+                  "mock": {
+                    "mock": "@name"
+                  }
+                },
+                "signer_mobile": {
+                  "type": "string",
+                  "description": "收货人电话",
+                  "mock": {
+                    "mock": "18686868686"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/up/userfav": {
+      "delete": {
+        "tags": [
+          "用户收藏"
+        ],
+        "summary": "取消收藏",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "goods": {
+                  "type": "integer",
+                  "description": "商品id"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/up/v1/userfav": {
+      "post": {
+        "tags": [
+          "用户收藏"
+        ],
+        "summary": "添加收藏",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "goods": {
+                  "type": "integer",
+                  "description": "商品id",
+                  "mock": {
+                    "mock": "1"
+                  }
+                }
+              },
+              "required": [
+                "goods"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/o/v1/alipay/return": {
+      "post": {
+        "tags": [
+          "订单"
+        ],
+        "summary": "支付接口",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/o/v1/order": {
+      "post": {
+        "tags": [
+          "订单"
+        ],
+        "summary": "新建订单",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@county"
+                  }
+                },
+                "name": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@name"
+                  }
+                },
+                "mobile": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "18788989898"
+                  }
+                },
+                "post": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "请尽快发货"
+                  }
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "goods": {
+                        "type": "integer",
+                        "mock": {
+                          "mock": "2"
+                        }
+                      },
+                      "nums": {
+                        "type": "integer",
+                        "mock": {
+                          "mock": "3"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "订单"
+        ],
+        "summary": "订单列表",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/o/v1/order/18": {
+      "get": {
+        "tags": [
+          "订单"
+        ],
+        "summary": "订单详情",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string",
+                  "description": "收货人地址"
+                },
+                "goods": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number",
+                        "description": "商品id"
+                      },
+                      "image": {
+                        "type": "string",
+                        "description": "商品图片"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "商品名称"
+                      },
+                      "nums": {
+                        "type": "number",
+                        "description": "数量"
+                      },
+                      "price": {
+                        "type": "number",
+                        "description": "商品价格"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "image",
+                      "name",
+                      "nums",
+                      "price"
+                    ]
+                  }
+                },
+                "id": {
+                  "type": "number",
+                  "description": "订单id"
+                },
+                "mobile": {
+                  "type": "string",
+                  "description": "收货人电话"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "收货人姓名"
+                },
+                "pay_type": {
+                  "type": "string",
+                  "description": "alipay：支付宝 wechat：微信"
+                },
+                "post": {
+                  "type": "string",
+                  "description": "备注"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "订单状态"
+                },
+                "total": {
+                  "type": "number",
+                  "description": "订单总金额"
+                },
+                "user": {
+                  "type": "integer",
+                  "description": "用户id"
+                }
+              },
+              "required": [
+                "user"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/o/v1/shop_cart/1": {
+      "put": {
+        "tags": [
+          "购物车"
+        ],
+        "summary": "修改购物车信息",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "nums": {
+                  "type": "integer",
+                  "description": "数量"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "购物车"
+        ],
+        "summary": "删除购物车记录",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/o/v1/shop_cart": {
+      "get": {
+        "tags": [
+          "购物车"
+        ],
+        "summary": "查看购物车记录",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "购物车"
+        ],
+        "summary": "添加商品",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "goods": {
+                  "type": "integer",
+                  "description": "商品id",
+                  "mock": {
+                    "mock": "1"
+                  }
+                },
+                "nums": {
+                  "type": "integer",
+                  "description": "数量",
+                  "mock": {
+                    "mock": "5"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/g/v1/banners/7": {
+      "put": {
+        "tags": [
+          "轮播图"
+        ],
+        "summary": "修改轮播图",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@url"
+                  }
+                },
+                "type": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "goods"
+                  }
+                },
+                "category_id": {
+                  "type": "integer",
+                  "mock": {
+                    "mock": "@id"
+                  }
+                },
+                "index": {
+                  "type": "integer",
+                  "mock": {
+                    "mock": "@id"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/g/v1/banners/1": {
+      "delete": {
+        "tags": [
+          "轮播图"
+        ],
+        "summary": "删除轮播图",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    },
+    "/g/v1/banners": {
+      "post": {
+        "tags": [
+          "轮播图"
+        ],
+        "summary": "添加轮播图",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@url"
+                  }
+                },
+                "index": {
+                  "type": "integer",
+                  "mock": {
+                    "mock": "@id"
+                  }
+                },
+                "url": {
+                  "type": "string",
+                  "mock": {
+                    "mock": "@url"
+                  }
+                }
+              },
+              "required": [
+                "url"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "轮播图"
+        ],
+        "summary": "轮播图列表",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {}
+          }
+        }
+      }
+    }
+  }
+}
