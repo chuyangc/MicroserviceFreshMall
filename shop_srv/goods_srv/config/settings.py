@@ -1,9 +1,8 @@
 import json
 
+import nacos
 from playhouse.pool import PooledMySQLDatabase
 from playhouse.shortcuts import ReconnectMixin
-
-import nacos
 from loguru import logger
 
 
@@ -15,10 +14,10 @@ class ReconnectMysqlDatabase(ReconnectMixin, PooledMySQLDatabase):
 NACOS = {
     "Host": "192.168.178.138",
     "Port": 8848,
-    "NameSpace": "f7f4d603-9f3d-4146-bb9c-83eac2f07233",
+    "NameSpace": "90bab2c3-dec3-4f07-87b8-09af866c0490",
     "User": "nacos",
     "Password": "nacos",
-    "DataId": "user-srv.json",
+    "DataId": "goods-srv.json",
     "Group": "dev"
 }
 
@@ -52,7 +51,7 @@ NACOS_USERNAME = "nacos"
 NACOS_PASSWORD = "nacos"
 
 NACOS_NAMESPACE = "public"
-NACOS_NAMESPACEID = "838b806f-20e6-4c3b-abf2-0e3b3bc73dcc"
+NACOS_NAMESPACEID = "90bab2c3-dec3-4f07-87b8-09af866c0490"
 NACOS_GROUP = "web"
 
 DB = ReconnectMysqlDatabase(data["mysql"]["db"], host=data["mysql"]["host"], port=data["mysql"]["port"],

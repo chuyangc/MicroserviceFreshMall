@@ -3,7 +3,7 @@ import "google/protobuf/empty.proto";
 option go_package = ".;proto";
 
 //Generate proto file command
-//python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. xxx.proto
+//python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. user.proto
 
 service User {
   rpc GetUserList(PageInfo) returns (UserListResponse); //用户列表
