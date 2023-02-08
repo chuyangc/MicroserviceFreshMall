@@ -11,7 +11,8 @@ func IsAdminAuth() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		claims, _ := ctx.Get("claims")
 		currentUser := claims.(*models.CustomClaims)
-		// TODO 此处有问题：获取的Role->AuthorityId值不正确
+		// TODO 此处有bug：获取的Role->AuthorityId值不正确
+		//fmt.Println(currentUser)
 		if currentUser.AuthorityId == 0 {
 			ctx.JSON(http.StatusForbidden, gin.H{
 				"msg": "无权限",

@@ -15,11 +15,6 @@ type AliSmsConfig struct {
 	ApiSecrect string `mapstructure:"secrect" json:"secrect"`
 }
 
-type RegConfig struct {
-	Host string `mapstructure:"host" json:"host"`
-	Port int    `mapstructure:"port" json:"port"`
-}
-
 type RedisConfig struct {
 	Host string `mapstructure:"host" json:"host"`
 	Port int    `mapstructure:"port" json:"port"`
@@ -33,13 +28,13 @@ type ConsulConfig struct {
 }
 
 type NacosConfig struct {
-	Host      string `mapstructure:"host"`
-	Port      uint64 `mapstructure:"port"`
-	Namespace string `mapstructure:"namespace"`
-	User      string `mapstructure:"user"`
-	Password  string `mapstructure:"password"`
-	DataId    string `mapstructure:"dataid"`
-	Group     string `mapstructure:"group"`
+	Host      string `mapstructure:"host" json:"host"`
+	Port      uint64 `mapstructure:"port" json:"port"`
+	Namespace string `mapstructure:"namespace" json:"namespace"`
+	User      string `mapstructure:"user" json:"user"`
+	Password  string `mapstructure:"password" json:"password"`
+	DataId    string `mapstructure:"dataid" json:"dataid"`
+	Group     string `mapstructure:"group" json:"group"`
 }
 
 type ServerConfig struct {
@@ -49,6 +44,6 @@ type ServerConfig struct {
 	JWTInfo     JWTConfig     `mapstructure:"jwt" json:"jwt"`
 	AliSmsInfo  AliSmsConfig  `mapstructure:"sms" json:"sms"`
 	RedisInfo   RedisConfig   `mapstructure:"redis" json:"redis"`
-	//RegInfo     RegConfig     `mapstructure:"reg" json:"reg"`
-	ConsulInfo ConsulConfig `mapstructure:"consul" json:"consul"`
+	ConsulInfo  ConsulConfig  `mapstructure:"consul" json:"consul"`
+	NacosInfo   NacosConfig   `mapstructure:"nacos" json:"nacos"`
 }

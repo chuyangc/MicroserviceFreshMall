@@ -16,20 +16,29 @@ from user_srv.proto import user_pb2_grpc
 from user_srv.handler.user import UserServicer
 from common.grpc_health.v1 import health, health_pb2, health_pb2_grpc
 from common.register import consul
-from user_srv.config import consulconfig
-from user_srv.config import srvconfig
-from user_srv.config import nacosconfig
+from user_srv.config import settings
 
 BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, BASE_DIR)
 REGISTER_MODE = "consul"  # consul || nacos
+# Nacos注销服务使用的参数
+IP = ""
+PORT = 0
 
 
 def on_exit(signum, frame, service_id):
-    register = consul.ConsulRegister(consulconfig.CONSUL_HOST, consulconfig.CONSUL_PORT)
-    logger.info(f"注销 {service_id} 服务")
-    register.deregister(service_id=service_id)
-    logger.info("注销成功")
+    if REGISTER_MODE == "consul":
+        register = consul.ConsulRegister(settings.CONSUL_HOST, settings.CONSUL_PORT)
+        logger.info(f"注销 {settings.SERVICE_NAME} --- {service_id} 服务")
+        register.deregister(service_id=service_id)
+        logger.info("注销成功")
+    elif REGISTER_MODE == "nacos":
+        # TODO Nacos服务注销，集群部署
+        register = nacos.NacosClient(server_addresses=settings.NACOS_SERVERADDR,
+                                     namespace=settings.NACOS_NAMESPACEID,
+                                     username=settings.NACOS_USERNAME,
+                                     password=settings.NACOS_PASSWORD)
+        register.remove_naming_instance(settings.SERVICE_NAME, IP, PORT)
     sys.exit(0)
 
 
@@ -63,6 +72,8 @@ def serve():
         port = get_free_tcp_port()
     else:
         port = args.port
+    IP = args.ip
+    PORT = port
 
     logger.add("logs/user_srv_{time}.log")
 
@@ -82,8 +93,8 @@ def serve():
     # 主进程退出信息监听
     """
         Windows Supported Signal
-            SIGINT ctrl+C 终端
-            SIGTERM kill发出的软件终止
+            SIGINT  ctrl+C 终端终止
+            SIGTERM kill   发出的软件终止
     """
     signal.signal(signal.SIGINT, partial(on_exit, service_id=service_id))
     signal.signal(signal.SIGTERM, partial(on_exit, service_id=service_id))
@@ -94,21 +105,21 @@ def serve():
     logger.info(f"服务注册中心为:{REGISTER_MODE}")
     if REGISTER_MODE == "consul":
         # Consul
-        register = consul.ConsulRegister(consulconfig.CONSUL_HOST, consulconfig.CONSUL_PORT)
-        if not register.register(name=srvconfig.SERVICE_NAME,
+        register = consul.ConsulRegister(settings.CONSUL_HOST, settings.CONSUL_PORT)
+        if not register.register(name=settings.SERVICE_NAME,
                                  id=service_id,
                                  address=args.ip,
                                  port=port,
-                                 tags=srvconfig.SERVICE_TAGS,
+                                 tags=settings.SERVICE_TAGS,
                                  check=None):
             logger.info(f"服务注册失败")
             sys.exit(0)
     elif REGISTER_MODE == "nacos":
         # Nacos
-        client = nacos.NacosClient(server_addresses=nacosconfig.NACOS_SERVERADDR,
-                                   namespace=nacosconfig.NACOS_NAMESPACEID,
-                                   username=nacosconfig.NACOS_USERNAME,
-                                   password=nacosconfig.NACOS_PASSWORD)
+        client = nacos.NacosClient(server_addresses=settings.NACOS_SERVERADDR,
+                                   namespace=settings.NACOS_NAMESPACEID,
+                                   username=settings.NACOS_USERNAME,
+                                   password=settings.NACOS_PASSWORD)
         # client.current_server(args.ip, args.port)
         succ = client.add_naming_instance("user-srv", args.ip, port)
         if not succ:
@@ -121,4 +132,6 @@ def serve():
 
 if __name__ == '__main__':
     logging.basicConfig()
+    # 监测Nacos配置变化
+    settings.client.add_config_watcher(settings.NACOS["DataId"], settings.NACOS["Group"], settings.check_update_cfg)
     serve()

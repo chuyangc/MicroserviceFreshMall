@@ -8,9 +8,9 @@ import (
 )
 
 var (
-	ServerConfig  *config.ServerConfig = &config.ServerConfig{}
-	Trans         ut.Translator
-	UserSrvClient proto.UserClient
-	//NacosConfig        *config.NacosConfig = &config.NacosConfig{}
+	ServerConfig       *config.ServerConfig = &config.ServerConfig{}
+	Trans              ut.Translator
+	UserSrvClient      proto.UserClient
+	NacosConfig        *config.NacosConfig = &config.NacosConfig{}
 	UserNacosSrvConfig naming_client.INamingClient
 )

@@ -1,28 +1,8 @@
-name: 'user-web'
-port: 8021
-user_srv:
-  host: '192.168.178.138'
-  port: 50051
-  name: 'user-srv'
-
-jwt:
-  # 生成Key地址: https://suijimimashengcheng.bmcx.com/
-  key: 'Y#6v^wdRsQGFjvB8^VQURpSdwpdvMg&V'
-
-sms:
-  key: 'LTAI5tBVKbaygAY49BAKYeDM'
-  secrect: 'BSWRpsp4Fg5xCFiaGFzlyFOOuMcTJY'
-  expire: 300
-
-redis:
-  host: '39.108.131.245'
-  port: 6379
-
-# 服务发现与注册中心
-reg:
-  host: '192.168.178.1'
-  port: 8848
-
-consul:
-  host: '192.168.178.138'
-  port: 8500
+#从配置中心获取配置
+host: '192.168.178.138'
+port: 8848
+namespace: 'f7f4d603-9f3d-4146-bb9c-83eac2f07233'
+user: 'nacos'
+password: 'nacos'
+dataid: 'user-web.json'
+group: 'dev'

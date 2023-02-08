@@ -20,7 +20,7 @@ func main() {
 	initialize.InitLogger()
 
 	//初始化配置文件
-	initialize.InitConfig()
+	initialize.InitNacosConfig()
 
 	//初始化Router
 	Router := initialize.Routers()
@@ -31,7 +31,7 @@ func main() {
 	}
 
 	//初始化srv的连接
-	initialize.InitLBSrvConn()
+	initialize.InitConsulLBSrvConn()
 
 	// 动态端口获取
 	viper.AutomaticEnv()

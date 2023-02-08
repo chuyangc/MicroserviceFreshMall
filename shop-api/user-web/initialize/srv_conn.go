@@ -9,19 +9,26 @@ import (
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"shop-api/user-web/global"
 	"shop-api/user-web/proto"
 )
 
-// 初始化服务注册与发现
+// 初始化服务发现
 
-func InitLBSrvConn() {
+func InitConsulLBSrvConn() {
 	consulInfo := global.ServerConfig.ConsulInfo
 	userConn, err := grpc.Dial(
 		fmt.Sprintf("consul://%s:%d/%s?wait=14s", consulInfo.Host, consulInfo.Port, global.ServerConfig.UserSrvInfo.Name),
-		grpc.WithInsecure(),
-		//insecure.NewCredentials(),
+		/*
+			The function insecure.NewCredentials returns an implementation of credentials.TransportCredentials.
+			use it as a DialOption with grpc.WithTransportCredentials.
+			Deprecated: use WithTransportCredentials and insecure.NewCredentials() to instead of it
+			grpc.Dial(":port", grpc.WithTransportCredentials(insecure.NewCredentials()))
+		*/
+		//grpc.WithInsecure(), //弃用的方法
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
 	)
 	if err != nil {
@@ -32,38 +39,15 @@ func InitLBSrvConn() {
 	global.UserSrvClient = userSrvClient
 }
 
-func InitNacosSrvConn() {
-	GetNacosSrvConn()
-	//拨号连接用户grpc服务器
-	userConn, err := grpc.Dial(fmt.Sprintf("%s:%d/%s", global.ServerConfig.UserSrvInfo.Host,
-		global.ServerConfig.UserSrvInfo.Port, global.ServerConfig.UserSrvInfo.Name), grpc.WithInsecure())
-	if err != nil {
-		zap.S().Errorw("[GetUserList] 连接 [用户服务失败]",
-			"msg", err.Error())
-	}
-	//生成grpc的client并调用接口
-	userSrvClient := proto.NewUserClient(userConn)
-	global.UserSrvClient = userSrvClient
-}
-
-func GetNacosServices(srvname string) {
-	_, err := global.UserNacosSrvConfig.GetService(vo.GetServiceParam{
-		ServiceName: "demo.go",
-		Clusters:    []string{"cluster-a"}, // 默认值DEFAULT
-		GroupName:   "group-a",             // 默认值DEFAULT_GROUP
-	})
-	if err != nil {
-		zap.S().Fatal("获取Nacos服务列表失败")
-	}
-}
-
-func GetNacosSrvConn() {
-	//create ServerConfig
+func InitNacosLBSrvConn() {
+	// TODO 有待完善的获取Nacos用户服务,且未完成测试
+	// 初始化UserNacosSrvConfig实例
+	// 创建ServerConfig
 	sc := []constant.ServerConfig{
-		*constant.NewServerConfig("127.0.0.1", 8848, constant.WithContextPath("/nacos")),
+		*constant.NewServerConfig(global.ServerConfig.NacosInfo.Host, global.ServerConfig.NacosInfo.Port, constant.WithContextPath("/nacos")),
 	}
 
-	//create ClientConfig
+	// TODO 创建ClientConfig，参数可加入配置文件中，有待完善
 	cc := *constant.NewClientConfig(
 		constant.WithNamespaceId("838b806f-20e6-4c3b-abf2-0e3b3bc73dcc"),
 		constant.WithTimeoutMs(5000),
@@ -73,35 +57,38 @@ func GetNacosSrvConn() {
 		constant.WithLogLevel("debug"),
 	)
 
-	// create naming client
+	// 创建naming client
 	client, err := clients.NewNamingClient(
 		vo.NacosClientParam{
 			ClientConfig:  &cc,
 			ServerConfigs: sc,
 		},
 	)
-	global.UserNacosSrvConfig = client
-
 	if err != nil {
-		zap.S().Fatal("[InitNacosSrvConn] 连接 [用户服务失败]")
+		zap.S().Fatal("获取服务失败")
 		//panic(err)
 	}
-	success, _err := client.RegisterInstance(vo.RegisterInstanceParam{
-		Ip:          "127.0.0.1",
-		Port:        8021,
-		ServiceName: "user-web",
-		Weight:      10,
-		Enable:      true,
-		Healthy:     true,
-		//Ephemeral:   true,
-		//Metadata:    map[string]string{"idc": "shanghai"},
-		//ClusterName: "cluster-a", // 默认值DEFAULT
-		//GroupName:   "group-a",   // 默认值DEFAULT_GROUP
+	global.UserNacosSrvConfig = client
+	//使用初始化完成的UserNacosSrvConfig实例获取服务
+	instance, _err := global.UserNacosSrvConfig.SelectOneHealthyInstance(vo.SelectOneHealthInstanceParam{
+		ServiceName: global.ServerConfig.Name,
+		//Clusters:    []string{"DEMO_SERVER"},
+		//GroupName:   "DEMO_SERVER_GROUP",
 	})
-	if !success {
-		zap.S().Fatal(_err)
+	if _err != nil {
+		zap.S().Error(err)
 	}
-	zap.S().Info("user-web 服务注册 成功")
+	// Nacos2.0版本支持gRPC
+	userConn, __err := grpc.Dial(
+		fmt.Sprintf("%s:%d", instance.Ip, instance.Port),
+		//grpc.WithInsecure(), //弃用的方法
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`))
+	if __err != nil {
+		zap.S().Fatal("[InitSrvConn] 连接 [用户服务失败]")
+	}
+	userSrvClient := proto.NewUserClient(userConn)
+	global.UserSrvClient = userSrvClient
 }
 
 func InitConsulSrvConn() {
@@ -133,7 +120,11 @@ func InitConsulSrvConn() {
 	}
 
 	//拨号连接用户grpc服务器
-	userConn, err := grpc.Dial(fmt.Sprintf("%s:%d", userSrvHost, userSrvPort), grpc.WithInsecure())
+	userConn, err := grpc.Dial(
+		fmt.Sprintf("%s:%d", userSrvHost, userSrvPort),
+		//grpc.WithInsecure(), //弃用的方法
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
 	if err != nil {
 		zap.S().Errorw("[GetUserList] 连接 [用户服务失败]",
 			"msg", err.Error(),

@@ -1,12 +1,12 @@
 from peewee import *
 from passlib.hash import pbkdf2_sha256
 
-from user_srv.config import dbconfig
+from user_srv.config import settings
 
 
 class BaseModel(Model):
     class Meta:
-        database = dbconfig.DB
+        database = settings.DB
 
 
 class User(BaseModel):
