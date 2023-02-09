@@ -6,18 +6,13 @@ import (
 	"github.com/spf13/viper"
 	"os"
 	"os/signal"
+	"shop-api/goods-web/utils"
+	"shop-api/goods-web/utils/register/consul"
 	"syscall"
 
-	"github.com/gin-gonic/gin/binding"
-	ut "github.com/go-playground/universal-translator"
-	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
-	myvalidator "shop-api/user-web/validator"
-
-	"shop-api/user-web/global"
-	"shop-api/user-web/initialize"
-	"shop-api/user-web/utils"
-	"shop-api/user-web/utils/register/consul"
+	"shop-api/goods-web/global"
+	"shop-api/goods-web/initialize"
 )
 
 func main() {
@@ -47,17 +42,6 @@ func main() {
 		if err == nil {
 			global.ServerConfig.Port = port
 		}
-	}
-
-	//注册验证器
-	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-		_ = v.RegisterValidation("mobile", myvalidator.ValidateMobile)
-		_ = v.RegisterTranslation("mobile", global.Trans, func(ut ut.Translator) error {
-			return ut.Add("mobile", "{0} 非法的手机号码!", true) // see universal-translator for details
-		}, func(ut ut.Translator, fe validator.FieldError) string {
-			t, _ := ut.T("mobile", fe.Field())
-			return t
-		})
 	}
 
 	/*

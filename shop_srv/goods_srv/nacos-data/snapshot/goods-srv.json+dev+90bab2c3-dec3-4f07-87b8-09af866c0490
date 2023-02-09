@@ -3,10 +3,10 @@
     "tags":["chuyangc", "FinalDesign", "python", "srv"],
     "mysql":{
         "db":"shop_goods_srv",
-        "host":"39.108.131.245",
+        "host":"192.168.178.138",
         "port":3306,
         "user":"root",
-        "password":"123456"
+        "password":"root"
     },
     "consul":{
         "host":"192.168.178.138",

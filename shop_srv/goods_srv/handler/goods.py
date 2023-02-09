@@ -374,7 +374,13 @@ class GoodsServicer(goods_pb2_grpc.GoodsServicer):
             category = Category.get(request.id)
             category.delete_instance()
 
-            # TODO 删除响应的category下的商品
+            # TODO 删除响应的category下的商品，待完善
+            # 先获取该category的id下的所有商品，遍历删除该分类id下的所有商品
+            # rsp: goods_pb2.GoodsListResponse = self.goods_stub.GoodsList(
+            #     goods_pb2.GoodsFilterRequest(topCategory=request.id)
+            # )
+            # for good in rsp.data:
+            #     self.DeleteGoods(good.id)
             return empty_pb2.Empty()
         except DoesNotExist:
             context.set_code(grpc.StatusCode.NOT_FOUND)

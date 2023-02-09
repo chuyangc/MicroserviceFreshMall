@@ -3,7 +3,7 @@ import "google/protobuf/empty.proto";
 option go_package = ".;proto";
 
 //Generate proto file command
-//python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. goods.proto
+//protoc -I . goods.proto --go_out=plugins=grpc:.
 
 service Goods{
     //商品接口

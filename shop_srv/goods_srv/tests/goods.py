@@ -32,7 +32,7 @@ class GoodsTest:
             goods_pb2.GoodsFilterRequest(topCategory=130358)
         )
         for item in rsp.data:
-            print(item.name, item.shopPrice)
+            print(item.name, item.shopPrice.item.id)
 
     def batch_get(self):
         ids = [422, 425]
