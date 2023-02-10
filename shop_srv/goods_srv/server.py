@@ -121,12 +121,12 @@ def serve():
                                    username=settings.NACOS_USERNAME,
                                    password=settings.NACOS_PASSWORD)
         # client.current_server(args.ip, args.port)
-        succ = client.add_naming_instance("goods-srv", args.ip, port)
+        succ = client.add_naming_instance(settings.SERVICE_NAME, args.ip, port)
         if not succ:
             logger.warning(f"服务注册失败")
             sys.exit(0)
 
-    logger.success(f"服务注册成功-> goods-srv")
+    logger.success(f"服务注册成功-> {settings.SERVICE_NAME}")
     server.wait_for_termination()
 
 

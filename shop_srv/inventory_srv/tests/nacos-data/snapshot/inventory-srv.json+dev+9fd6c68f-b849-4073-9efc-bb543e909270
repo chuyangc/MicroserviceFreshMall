@@ -1,0 +1,15 @@
+{
+    "name":"inventory-srv",
+    "tags":["chuyangc", "FinalDesign", "python", "srv"],
+    "mysql":{
+        "db":"shop_inventory_srv",
+        "host":"192.168.178.138",
+        "port":3306,
+        "user":"root",
+        "password":"root"
+    },
+    "consul":{
+        "host":"192.168.178.138",
+        "port":8500
+    }
+}

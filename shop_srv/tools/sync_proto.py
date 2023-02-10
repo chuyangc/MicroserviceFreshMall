@@ -111,7 +111,7 @@ class PyProtoGenerator:
     def generate(self):
         with cd(self.python_dir):
             files = proto_file_list(self.python_dir)
-            subprocess.call("workon mxshop_srv", shell=True)
+            # subprocess.call("workon shop_srv", shell=True)
             for file in files:
                 command = f"python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. {file}"
                 subprocess.call(command)
