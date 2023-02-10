@@ -7,3 +7,4 @@ protobuf
 loguru
 python-consul2
 nacos-sdk-python
+redis

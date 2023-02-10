@@ -38,7 +38,7 @@ class InventroyTest:
         print(rsp.num)
 
     def sell(self):
-        goods_list = [(3, 1), (4, 1)]
+        goods_list = [(1, 10), (2, 20), (3, 30)]
         req = inventory_pb2.SellInfo()
         for goodsId, num in goods_list:
             req.goodsInfo.append(inventory_pb2.GoodsInvInfo(goodsId=goodsId, num=num))
@@ -53,9 +53,8 @@ class InventroyTest:
 
 
 if __name__ == "__main__":
-
     inventory = InventroyTest()
     # inventory.set_inv()
     # inventory.get_inv()
-    # inventory.sell()
-    inventory.reback()
+    inventory.sell()
+    # inventory.reback()

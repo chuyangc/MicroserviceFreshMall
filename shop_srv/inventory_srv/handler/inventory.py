@@ -5,6 +5,7 @@ from loguru import logger
 from peewee import DoesNotExist
 from google.protobuf import empty_pb2
 
+from common.lock.py_redis_lock import Lock
 from inventory_srv.config import settings
 from inventory_srv.model.models import Inventory
 from inventory_srv.proto import inventory_pb2, inventory_pb2_grpc
@@ -42,11 +43,12 @@ class InventoryServicer(inventory_pb2_grpc.InventoryServicer):
 
     @logger.catch
     def Sell(self, request: inventory_pb2.GoodsInvInfo, context):
-        # TODO 未解决超卖问题
         # 扣减库存
         with settings.DB.atomic() as txn:
             for item in request.goodsInfo:
                 # 查询库存
+                lock = Lock(settings.REDIS_CLIENT, f"lock:goods_{item.goodsId}", auto_renewal=True, expire=10)
+                lock.acquire()
                 try:
                     goods_inv = Inventory.get(Inventory.goods == item.goodsId)
                 except DoesNotExist as e:
@@ -61,10 +63,10 @@ class InventoryServicer(inventory_pb2_grpc.InventoryServicer):
                     txn.rollback()
                     return empty_pb2.Empty()
                 else:
-                    # TODO 可能会引起数据不一致，需要加入分布式锁
                     # 库存充足
                     goods_inv.stocks -= item.num
                     goods_inv.save()
+                lock.release()
             return empty_pb2.Empty()
 
     @logger.catch
@@ -73,14 +75,16 @@ class InventoryServicer(inventory_pb2_grpc.InventoryServicer):
         with settings.DB.atomic() as txn:
             for item in request.goodsInfo:
                 # 查询库存
+                lock = Lock(settings.REDIS_CLIENT, f"lock:goods_{item.goodsId}", auto_renewal=True, expire=10)
+                lock.acquire()
                 try:
                     goods_inv = Inventory.get(Inventory.goods == item.goodsId)
                 except DoesNotExist as e:
                     txn.rollback()
                     context.set_code(grpc.StatusCode.NOT_FOUND)
                     return empty_pb2.Empty()
-                # TODO 可能会引起数据不一致，需要加入分布式锁
                 # 库存充足
                 goods_inv.stocks += item.num
                 goods_inv.save()
-            return empty_pb2.Empty()
+            lock.release()
+        return empty_pb2.Empty()

@@ -1,5 +1,5 @@
 import json
-
+import redis
 import nacos
 from playhouse.pool import PooledMySQLDatabase
 from playhouse.shortcuts import ReconnectMixin
@@ -43,6 +43,17 @@ CONSUL_PORT = data["consul"]["port"]
 SERVICE_NAME = data["name"]
 SERVICE_TAGS = data["tags"]
 
+REDIS_HOST = data["redis"]["host"]
+REDIS_PORT = data["redis"]["port"]
+REDIS_DB = data["redis"]["db"]
+
+# 配置连接池
+pool = redis.ConnectionPool(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
+REDIS_CLIENT = redis.StrictRedis(connection_pool=pool)
+
+DB = ReconnectMysqlDatabase(data["mysql"]["db"], host=data["mysql"]["host"], port=data["mysql"]["port"],
+                            user=data["mysql"]["user"], password=data["mysql"]["password"])
+
 # TODO nacos的配置信息
 NACOS_SERVERADDR = "192.168.178.138:8848"
 NACOS_HOST = "192.168.178.138"
@@ -53,6 +64,3 @@ NACOS_PASSWORD = "nacos"
 NACOS_NAMESPACE = "public"
 NACOS_NAMESPACEID = "90bab2c3-dec3-4f07-87b8-09af866c0490"
 NACOS_GROUP = "web"
-
-DB = ReconnectMysqlDatabase(data["mysql"]["db"], host=data["mysql"]["host"], port=data["mysql"]["port"],
-                            user=data["mysql"]["user"], password=data["mysql"]["password"])

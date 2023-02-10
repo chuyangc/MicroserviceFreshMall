@@ -1,6 +1,11 @@
 {
     "name":"inventory-srv",
     "tags":["chuyangc", "FinalDesign", "python", "srv"],
+        "redis":{
+        "host":"192.168.178.138",
+        "port":"6379",
+        "db":0
+    },
     "mysql":{
         "db":"shop_inventory_srv",
         "host":"192.168.178.138",
