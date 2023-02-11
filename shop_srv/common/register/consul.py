@@ -45,6 +45,7 @@ class ConsulRegister(base.Register):
         params = {
             "filter": filter
         }
+        # 避免获取所有的服务，获取单独的address和port
         data = requests.get(url, params=params).json()
         if data:
             service_info = random.choice(list(data.values()))
