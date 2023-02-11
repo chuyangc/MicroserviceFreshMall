@@ -1,0 +1,8 @@
+#从配置中心获取配置
+host: '192.168.178.138'
+port: 8848
+namespace: '2ee0038f-df12-4bed-bb02-4a51a3c5f340'
+user: 'nacos'
+password: 'nacos'
+dataid: 'order-web.json'
+group: 'pro'

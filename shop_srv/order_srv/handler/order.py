@@ -1,6 +1,4 @@
-import json
 import time
-from datetime import datetime
 import grpc
 from loguru import logger
 from peewee import DoesNotExist
@@ -63,13 +61,13 @@ class OrderServicer(order_pb2_grpc.OrderServicer):
     def UpdateCartItem(self, request, context):
         # 更新购物车条目-数量和选中状态
         try:
-            item = ShoppingCart.get(ShoppingCart.id == request.id)
+            item = ShoppingCart.get(ShoppingCart.user == request.userId, ShoppingCart.goods == request.goodsId)
             item.checked = request.checked
-            # proto有默认值，避免有值覆盖问题
             if request.nums:
+                # proto有默认值，此处做处理
                 item.nums = request.nums
             item.save()
-            return empty_pb2.Empry()
+            return empty_pb2.Empty()
         except DoesNotExist as e:
             context.set_code(grpc.StatusCode.NOT_FOUND)
             context.set_details("购物车记录不存在")
@@ -79,10 +77,11 @@ class OrderServicer(order_pb2_grpc.OrderServicer):
     def DeleteCartItem(self, request, context):
         # 删除购物车条目
         try:
-            item = ShoppingCart.get(ShoppingCart.id == request.id)
+            # 严谨处理id，避免误删
+            item = ShoppingCart.get(ShoppingCart.user == request.userId, ShoppingCart.goods == request.goodsId)
             item.delete_instance()
 
-            return empty_pb2.Empry()
+            return empty_pb2.Empty()
         except DoesNotExist as e:
             context.set_code(grpc.StatusCode.NOT_FOUND)
             context.set_details("购物车记录不存在")
@@ -115,7 +114,7 @@ class OrderServicer(order_pb2_grpc.OrderServicer):
             tmp_rsp.address = order.address
             tmp_rsp.name = order.signer_name
             tmp_rsp.mobile = order.singer_mobile
-            # tmp_rsp.addTime = order.add_time.strftime('%Y-%m-%d %H:%M:%S')
+            tmp_rsp.addTime = order.add_time.strftime('%Y-%m-%d %H:%M:%S')
 
             rsp.data.append(tmp_rsp)
 

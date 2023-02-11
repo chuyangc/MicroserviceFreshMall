@@ -1,0 +1,26 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+option go_package = ".;proto";
+
+//Generate proto file command
+//protoc -I . inventory.proto --go_out=plugins=grpc:.
+
+service Inventory {
+    rpc SetInv(GoodsInvInfo) returns (google.protobuf.Empty); //设置库存
+    rpc InvDetail(GoodsInvInfo) returns (GoodsInvInfo); //获取库存信息
+    // TODO 可能存在一些商品可以扣减，有一些商品库存不足以扣减，此处并未对该情况做处理
+    rpc Sell(SellInfo) returns (google.protobuf.Empty); //扣减库存
+    // TODO 存在潜在问题，如果添加新的服务来归还库存，那么此种解决方案需要先向订单服务获取商品信息，未解决
+    rpc Reback(SellInfo) returns(google.protobuf.Empty); //库存归还
+}
+
+message GoodsInvInfo {
+    int32 goodsId = 1;
+    int32 num = 2;
+}
+
+message SellInfo {
+    // 批量商品扣减
+    repeated GoodsInvInfo goodsInfo = 1;
+    string orderSn = 2;
+}

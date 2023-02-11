@@ -117,6 +117,7 @@ func PassWordLogin(c *gin.Context) {
 		HandleValidatorError(c, err)
 		return
 	}
+	//fmt.Println(passwordLoginForm)
 
 	//验证,每次验证后清理
 	if !store.Verify(passwordLoginForm.CaptchaId, passwordLoginForm.Captcha, true) {
