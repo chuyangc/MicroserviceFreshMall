@@ -3,13 +3,13 @@ import axios from 'axios';
 
 // let host = 'http://shop.projectsedu.com';
 // let baseUrl = "http://192.168.178.1:8000"
-let goodsUrl = "http://192.168.178.1:8022"
-let orderUrl = "http://192.168.178.1:8023"
-let userUrl = "http://192.168.178.1:8021"
-let userOpUrl = "http://192.168.178.1:8027"
-export const ossUrl = "http://192.168.178.1:8029"
+let goodsUrl = "http://127.0.0.1:8022"
+let orderUrl = "http://127.0.0.1:8023"
+let userUrl = "http://127.0.0.1:8021"
+let userOpUrl = "http://127.0.0.1:8027"
+export const ossUrl = "http://127.0.0.1:8029"
 
-let host = 'http://127.0.0.1:8000';
+let host = 'http://127.0.0.1:8089';
 
 //获取商品类别信息
 export const queryCategorygoods = params => { return axios.get(`${host}/indexgoods/`) }
@@ -79,10 +79,10 @@ export const getMessage = parmas => { return axios.post(`${userUrl}/u/v1/base/se
 
 
 //获取用户信息
-export const getUserDetail = () => { return axios.get(`${userUrl}/u/v1/user/1`) }
+export const getUserDetail = () => { return axios.get(`${userUrl}/u/v1/user/detail`) }
 
 //修改用户信息
-export const updateUserInfo = params => { return axios.patch(`${userUrl}/user/1`, params) }
+export const updateUserInfo = params => { return axios.patch(`${userUrl}/u/v1/user/update`, params) }
 
 
 //获取订单
@@ -96,13 +96,13 @@ export const getOrderDetail = orderId => {return axios.get(`${orderUrl}/o/v1/ord
 
 
 //获取留言
-export const getMessages = () => {return axios.get(`${userOpUrl}/up/v1/messages`)}
+export const getMessages = () => {return axios.get(`${userOpUrl}/up/v1/message`)}
 
 //添加留言
-export const addMessage = params => {return axios.post(`${userOpUrl}/up/v1/messages/`, params, {headers:{ 'Content-Type': 'multipart/form-data' }})}
+export const addMessage = params => {return axios.post(`${userOpUrl}/up/v1/message`, params, {headers:{ 'Content-Type': 'multipart/form-data' }})}
 
 //删除留言
-export const delMessages = messageId => {return axios.delete(`${userOpUrl}/up/v1/messages/`+messageId)}
+export const delMessages = messageId => {return axios.delete(`${userOpUrl}/up/v1/message/`+messageId)}
 
 //添加收货地址
 export const addAddress = params => {return axios.post(`${userOpUrl}/up/v1/address`, params)}

@@ -12,3 +12,9 @@ type RegisterForm struct {
 	PassWord string `form:"password" json:"password" binding:"required,min=3,max=20"`
 	Code     string `form:"code" json:"code" binding:"required,min=6,max=6"`
 }
+
+type UpdateUserForm struct {
+	Name     string `form:"name" json:"name" binding:"required,min=3,max=10"`
+	Gender   string `form:"gender" json:"gender" binding:"required,oneof=female male"`
+	Birthday string `form:"birthday" json:"birthday" binding:"required,datetime=2006-01-02"`
+}

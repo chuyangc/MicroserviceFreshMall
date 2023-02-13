@@ -116,11 +116,11 @@
                         <div class="list" v-show="showShopCar">
                             <div class="data">
                                <dl v-for="(item,index) in goods_list.goods_list">
-                                <dt><router-link :to="'/app/home/productDetail/'+item.goods_id" target = _blank><img :src="item.goods_image"></router-link></dt>
+                                <dt><router-link :to="'/app/home/productDetail/'+item.good_id" target = _blank><img :src="item.good_image"></router-link></dt>
                                 <dd>
-                                  <h4><router-link :to="'/app/home/productDetail/'+item.goods_id" target = _blank>{{item.goods_name}}</router-link></h4>
-                                  <p><span class="red">{{item.goods_price}}</span>&nbsp;<i>X</i>&nbsp;{{item.nums}}</p>
-                                  <a title="删除" class="iconfont del" @click="deleteGoods(index,item.goods_id)">×</a></dd>
+                                  <h4><router-link :to="'/app/home/productDetail/'+item.good_id" target = _blank>{{item.good_name}}</router-link></h4>
+                                  <p><span class="red">{{item.good_price}}</span>&nbsp;<i>X</i>&nbsp;{{item.nums}}</p>
+                                  <a title="删除" class="iconfont del" @click="deleteGoods(index,item.good_id)">×</a></dd>
                               </dl>
                             </div>
                             <div class="count">共<span class="red" id="hd_cart_count">{{goods_list.length}}</span>件商品哦~

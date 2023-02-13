@@ -10,17 +10,17 @@
       </div>
       <div class="goods-list">
         <ul>
-          <li class="cle hover" style="border-bottom-style: none;" v-for="(item,index) in goods.goods_list" :key="item.goods_id">
+          <li class="cle hover" style="border-bottom-style: none;" v-for="(item,index) in goods.goods_list" :key="item.good_id">
             <div class="check"><input type="checkbox" @change="chooseGoods(index,item)" v-model="item.checked"></div>
             <div class="pic">
-              <a target="_blank"> <img :alt="item.goods_name" :src="item.goods_image"></a>
+              <a target="_blank"> <img :alt="item.good_name" :src="item.good_image"></a>
             </div>
             <div class="name">
-              <a target="_blank">{{item.goods_name}}</a>
+              <a target="_blank">{{item.good_name}}</a>
               <p></p>
             </div>
             <div class="price-xj">
-              <p><em>￥{{item.goods_price}}元</em></p>
+              <p><em>￥{{item.good_price}}元</em></p>
             </div>
             <div class="nums" id="nums">
               <span class="minus" title="减少1个数量" @click="reduceCartNum(index, item.id);">-</span>
@@ -28,10 +28,10 @@
               <span class="add" title="增加1个数量" @click="addCartNum(index, item.id);">+</span>
             </div>
             <div class="price-xj"><span></span>
-              <em id="total_items_3137">￥{{(item.goods_price * item.nums).toFixed(2)}}元</em>
+              <em id="total_items_3137">￥{{(item.good_price * item.nums).toFixed(2)}}元</em>
             </div>
             <div class="del">
-              <a class="btn-del" @click="deleteGoods(index, item.goods_id)">删除</a>
+              <a class="btn-del" @click="deleteGoods(index, item.good_id)">删除</a>
             </div>
           </li>
         </ul>
@@ -95,9 +95,8 @@
         signer_name:'',
         signer_mobile:'',
         goods: {
-          totalPrice:null,
-          goods_list: [
-          ],
+          totalPrice: 0,
+          goods_list: [],
         }
       };
     },
@@ -115,7 +114,7 @@
         var totalPrice = 0
         this.goods.goods_list = response.data.data;
         response.data.data.forEach(function(entry) {
-          totalPrice += entry.goods_price*entry.nums;
+          totalPrice += entry.good_price*entry.nums;
         });
 
         this.goods.totalPrice = totalPrice
@@ -173,10 +172,10 @@
         // 计算总价
         if(!this.goods.goods_list[index].checked) {
 
-          this.totalPrice = this.totalPrice-this.goods.goods_list[index].nums*this.goods.goods_list[index].goods_price
+          this.totalPrice = this.totalPrice-this.goods.goods_list[index].nums*this.goods.goods_list[index].good_price
         } else {
           console.log(this.goods.goods_list[index].nums, this.goods.goods_list[index])
-          this.totalPrice = (this.totalPrice+this.goods.goods_list[index].nums*this.goods.goods_list[index].goods_price).toFixed(2)
+          this.totalPrice = (this.totalPrice+this.goods.goods_list[index].nums*this.goods.goods_list[index].good_price).toFixed(2)
         }
         let id = this.goods.goods_list[index].id
         let  nums = this.goods.goods_list[index].nums
@@ -190,7 +189,7 @@
         for(var i = 0;i<goods_list.length;i++){
           if(goods_list[i].checked) {
 
-            totalPrice=(totalPrice+goods_list[i].nums* goods_list[i].goods_price).toFixed(2);
+            totalPrice=(totalPrice+goods_list[i].nums* goods_list[i].good_price).toFixed(2);
           }
         }
         this.totalPrice = totalPrice;
@@ -291,7 +290,7 @@
           // else{
             createOrder(
               {
-                post:this.post_script,
+                post:"商城结算",
                 address:this.address,
                 name:this.signer_name,
                 mobile:this.signer_mobile,

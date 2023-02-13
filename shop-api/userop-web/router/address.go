@@ -9,9 +9,9 @@ import (
 func InitAddressRouter(Router *gin.RouterGroup) {
 	AddressRouter := Router.Group("address")
 	{
-		AddressRouter.GET("", middlewares.JWTAuth(), address.List)          // 轮播图列表页
-		AddressRouter.DELETE("/:id", middlewares.JWTAuth(), address.Delete) // 删除轮播图
-		AddressRouter.POST("", middlewares.JWTAuth(), address.New)          //新建轮播图
-		AddressRouter.PUT("/:id", middlewares.JWTAuth(), address.Update)    //修改轮播图信息
+		AddressRouter.GET("", middlewares.JWTAuth(), address.List)
+		AddressRouter.DELETE("/:id", middlewares.JWTAuth(), address.Delete)
+		AddressRouter.POST("", middlewares.JWTAuth(), address.New)
+		AddressRouter.PATCH("/:id", middlewares.JWTAuth(), address.Update)
 	}
 }

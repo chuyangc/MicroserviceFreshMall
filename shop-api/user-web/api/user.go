@@ -251,3 +251,49 @@ func Register(c *gin.Context) {
 		"expired_at": (time.Now().Unix() + 60*60*24*30) * 1000, //缓存过期时间,ms
 	})
 }
+
+func GetUserDetail(c *gin.Context) {
+	claims, _ := c.Get("claims")
+	currentUser := claims.(*models.CustomClaims)
+	zap.S().Infof("访问用户: %d", currentUser.ID)
+
+	rsp, err := global.UserSrvClient.GetUserById(context.Background(), &proto.IdRequest{
+		Id: int32(currentUser.ID),
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(err, c)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"name":     rsp.NickName,
+		"birthday": time.Unix(int64(rsp.BirthDay), 0).Format("2006-01-02"),
+		"gender":   rsp.Gender,
+		"mobile":   rsp.Mobile,
+	})
+}
+
+func UpdateUser(c *gin.Context) {
+	updateUserForm := forms.UpdateUserForm{}
+	if err := c.ShouldBindJSON(&updateUserForm); err != nil {
+		HandleValidatorError(c, err)
+		return
+	}
+	claims, _ := c.Get("claims")
+	currentUser := claims.(*models.CustomClaims)
+	zap.S().Infof("访问用户: %d", currentUser.ID)
+
+	// 转换日期为int
+	loc, _ := time.LoadLocation("Local")
+	birthDay, _ := time.ParseInLocation("2006-01-02", updateUserForm.Birthday, loc)
+	_, err := global.UserSrvClient.UpdateUser(context.Background(), &proto.UpdateUserInfo{
+		Id:       int32(currentUser.ID),
+		NickName: updateUserForm.Name,
+		Gender:   updateUserForm.Gender,
+		BirthDay: uint64(birthDay.Unix()),
+	})
+	if err != nil {
+		HandleGrpcErrorToHttp(err, c)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{})
+}

@@ -27,7 +27,7 @@ export default {
             console.log(response.data.data)
             var totalPrice = 0
             response.data.data.forEach(function(entry) {
-              totalPrice += entry.goods_price*entry.nums
+              totalPrice += entry.good_price*entry.nums
             });
             state.goods_list.totalPrice = totalPrice;
 

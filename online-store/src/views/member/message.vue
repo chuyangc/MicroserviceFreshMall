@@ -17,7 +17,7 @@
                                     <span v-if="item.message_type===4">售后：</span>
                                     <span v-if="item.message_type===5">求购：</span>
                                     <span>{{item.subject}}</span>
-                                    <span>（{{item.add_time}}）</span>
+                                    <span>({{item.add_time}})</span>
                                 </div>
                                 <div>
                                   {{item.message}}
@@ -126,7 +126,7 @@
 
         },
         created () {
-            this.getMessage();
+            this.messageAll = this.getMessage();
         },
         watch: {
 
@@ -160,8 +160,8 @@
             },
             getMessage () { //获取留言
               getMessages().then((response)=> {
-                    console.log(response.data);
-                    this.messageAll = response.data;
+                    console.log(response.data.data);
+                    this.messageAll = response.data.data;
                 }).catch(function (error) {
                     console.log(error);
                 });
