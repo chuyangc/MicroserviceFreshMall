@@ -1,0 +1,8 @@
+#从配置中心获取配置
+host: '192.168.178.138'
+port: 8848
+namespace: 'aba31f2f-7bde-4701-b4e1-1b1aa7ee6d35'
+user: 'nacos'
+password: 'nacos'
+dataid: 'userop-web.json'
+group: 'dev'

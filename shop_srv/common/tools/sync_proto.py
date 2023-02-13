@@ -135,5 +135,5 @@ if __name__ == "__main__":
     # gen = ProtoGenerator(python_dir, go_dir)
     # gen.generate()
 
-    py_gen = PyProtoGenerator("H:\\gocache\\FinalDesign\\shop_srv\\goods_srv\\proto")
+    py_gen = PyProtoGenerator("/goods_srv/proto")
     py_gen.generate()

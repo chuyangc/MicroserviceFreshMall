@@ -1,8 +1,8 @@
 <template>
-  <div class="banner-warp">
+  <div class="banner-warp" style="center">
     <swiper :options="swiperOption">
       <swiper-slide v-for="item in banners" :key="item.goods">
-        <router-link :to="'/app/home/productDetail/'+item.url" target = _blank> <img :src="item.image" alt="" /></router-link>
+        <router-link :to="'/app/home/productDetail/'+item.url" target = _blank> <img :src="item.image" alt="" style="width:100%;height:300px"/></router-link>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>

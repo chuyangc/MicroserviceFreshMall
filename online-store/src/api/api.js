@@ -1,14 +1,15 @@
 import axios from 'axios';
 
 
-let host = 'http://shop.projectsedu.com';
-let baseUrl = "http://39.107.30.137:8000"
-let goodsUrl = "http://39.107.30.137:8022"
-let orderUrl = "http://39.107.30.137:8023"
-let userUrl = "http://39.107.30.137:8021"
-let userOpUrl = "http://39.107.30.137:8027"
+// let host = 'http://shop.projectsedu.com';
+// let baseUrl = "http://192.168.178.1:8000"
+let goodsUrl = "http://192.168.178.1:8022"
+let orderUrl = "http://192.168.178.1:8023"
+let userUrl = "http://192.168.178.1:8021"
+let userOpUrl = "http://192.168.178.1:8027"
+export const ossUrl = "http://192.168.178.1:8029"
 
-// let host = 'http://127.0.0.1:8000';
+let host = 'http://127.0.0.1:8000';
 
 //获取商品类别信息
 export const queryCategorygoods = params => { return axios.get(`${host}/indexgoods/`) }

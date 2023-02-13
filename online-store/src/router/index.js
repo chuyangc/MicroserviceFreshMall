@@ -164,7 +164,7 @@ var router = new Router({
           footer: footer
         },
         meta: {
-          title: '慕学生鲜-登录',
+          title: '生鲜商城-登录',
           need_log: false
         }
       },
@@ -177,7 +177,7 @@ var router = new Router({
           footer: footer
         },
         meta: {
-          title: '慕学生鲜-注册',
+          title: '生鲜商城-注册',
           need_log: false
         }
       },
@@ -195,7 +195,7 @@ var router = new Router({
             name: 'list',
             component: list,
             meta: {
-              title: '慕学生鲜-列表',
+              title: '生鲜商城-列表',
               need_log: false
             }
           },
@@ -213,7 +213,7 @@ var router = new Router({
             name: 'index',
             component: index,
             meta: {
-              title: '慕学生鲜-首页',
+              title: '生鲜商城-首页',
               need_log: false
             }
           },
@@ -222,7 +222,7 @@ var router = new Router({
             name: 'productDetail',
             component: productDetail,
             meta: {
-              title: '慕学生鲜-商品详情',
+              title: '生鲜商城-商品详情',
               need_log: false
             }
           },
@@ -236,7 +236,7 @@ var router = new Router({
                 name: 'message',
                 component: message,
                 meta: {
-                  title: '慕学生鲜-我的留言',
+                  title: '生鲜商城-我的留言',
                   need_log: true
                 }
               },
@@ -245,7 +245,7 @@ var router = new Router({
                 name: 'receive',
                 component: receive,
                 meta: {
-                  title: '慕学生鲜-收件人信息',
+                  title: '生鲜商城-收件人信息',
                   need_log: true
                 }
               },
@@ -254,7 +254,7 @@ var router = new Router({
                 name: 'order',
                 component: order,
                 meta: {
-                  title: '慕学生鲜-我的订单',
+                  title: '生鲜商城-我的订单',
                   need_log: true
                 }
               },
@@ -263,7 +263,7 @@ var router = new Router({
                 name: 'orderDetail',
                 component: orderDetail,
                 meta: {
-                  title: '慕学生鲜-我的订单',
+                  title: '生鲜商城-我的订单',
                   need_log: true
                 }
               },
@@ -272,7 +272,7 @@ var router = new Router({
                 name: 'collection',
                 component: collection,
                 meta: {
-                  title: '慕学生鲜-我的收藏',
+                  title: '生鲜商城-我的收藏',
                   need_log: true
                 }
               },
@@ -281,7 +281,7 @@ var router = new Router({
                 name: 'userinfo',
                 component: userinfo,
                 meta: {
-                  title: '慕学生鲜-用户信息',
+                  title: '生鲜商城-用户信息',
                   need_log: true
                 }
               },
@@ -302,7 +302,7 @@ var router = new Router({
             name: 'cart',
             component: cart,
             meta: {
-              title: '慕学生鲜-购物车',
+              title: '生鲜商城-购物车',
               need_log: true
             }
           }
