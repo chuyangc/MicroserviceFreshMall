@@ -4,4 +4,4 @@
 
 ### 目前架构图
 
-<img src="https://www.processon.com/embed/63e65cfe4adde82ce5c89c97">
+[点击查看](https://www.processon.com/view/link/63e9c64cb9d870719cfc2d78)
