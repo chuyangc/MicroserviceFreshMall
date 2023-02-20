@@ -1,21 +1,13 @@
 {
-  root: 'D:\\360安全浏览器下载\\Go+Python双语言混合开发\\resources-master\\resources\\mall-master',
+  root: 'H:\\gocache\\FinalDesign\\mall-master',
   registry: 'https://registry.npmmirror.com',
-  pkgs: [
-    {
-      name: '',
-      version: 'svg-baker-runtime/browser-symbol',
-      type: 'git',
-      alias: undefined,
-      arg: [Result]
-    }
-  ],
+  pkgs: [],
   production: false,
   cacheStrict: false,
   cacheDir: null,
   env: {
     npm_config_registry: 'https://registry.npmmirror.com',
-    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=C:\\\\Users\\\\lenovo\\\\.cnpmrc","--disturl=https://npmmirror.com/mirrors/node","--registry=https://registry.npmmirror.com","--save","svg-baker-runtime/browser-symbol"],"original":["--fix-bug-versions","--china","--userconfig=C:\\\\Users\\\\lenovo\\\\.cnpmrc","--disturl=https://npmmirror.com/mirrors/node","--registry=https://registry.npmmirror.com","--save","svg-baker-runtime/browser-symbol"]}',
+    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=C:\\\\Users\\\\lenovo\\\\.cnpmrc","--disturl=https://npmmirror.com/mirrors/node","--registry=https://registry.npmmirror.com"],"original":["--fix-bug-versions","--china","--userconfig=C:\\\\Users\\\\lenovo\\\\.cnpmrc","--disturl=https://npmmirror.com/mirrors/node","--registry=https://registry.npmmirror.com"]}',
     npm_config_user_agent: 'npminstall/7.4.1 npm/? node/v16.16.0 win32 x64',
     NODE: 'C:\\Program Files\\nodejs\\node.exe',
     npm_node_execpath: 'C:\\Program Files\\nodejs\\node.exe',
@@ -45,8 +37,8 @@
     npm_config_sharp_binary_host: 'https://cdn.npmmirror.com/binaries/sharp',
     npm_config_sharp_libvips_binary_host: 'https://cdn.npmmirror.com/binaries/sharp-libvips',
     npm_config_robotjs_binary_host: 'https://cdn.npmmirror.com/binaries/robotjs',
-    npm_rootpath: 'D:\\360安全浏览器下载\\Go+Python双语言混合开发\\resources-master\\resources\\mall-master',
-    INIT_CWD: 'D:\\360安全浏览器下载\\Go+Python双语言混合开发\\resources-master\\resources\\mall-master',
+    npm_rootpath: 'H:\\gocache\\FinalDesign\\mall-master',
+    INIT_CWD: 'H:\\gocache\\FinalDesign\\mall-master',
     npm_config_cache: 'C:\\Users\\lenovo\\.npminstall_tarball'
   },
   binaryMirrors: {
@@ -178,7 +170,7 @@
   disableFallbackStore: false,
   workspacesMap: Map(0) {},
   enableWorkspace: false,
-  workspaceRoot: 'D:\\360安全浏览器下载\\Go+Python双语言混合开发\\resources-master\\resources\\mall-master',
+  workspaceRoot: 'H:\\gocache\\FinalDesign\\mall-master',
   isWorkspaceRoot: true,
   isWorkspacePackage: false,
   strictSSL: true,

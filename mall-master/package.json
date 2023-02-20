@@ -1,7 +1,7 @@
 {
   "name": "mxshop-admin",
   "version": "1.0.0",
-  "description": "慕学生鲜-后台管理系统",
+  "description": "生鲜商城-后台管理系统",
   "author": "macro",
   "private": true,
   "scripts": {
@@ -14,12 +14,14 @@
     "echarts": "^4.2.0-rc.2",
     "element-ui": "^2.3.7",
     "js-cookie": "^2.2.0",
-    "node-sass": "^8.0.0",
+    "node-sass": "^6.0.1",
     "normalize.css": "^8.0.0",
     "nprogress": "^0.2.0",
+    "qs": "^6.11.0",
     "v-charts": "^1.19.0",
     "v-distpicker": "^1.0.20",
     "vue": "^2.5.2",
+    "vue-hot-reload-api": "^2.3.4",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },

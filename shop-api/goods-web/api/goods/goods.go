@@ -215,7 +215,7 @@ func UpdateStatus(c *gin.Context) {
 	i, err := strconv.ParseInt(id, 10, 32)
 	if _, err = global.GoodsSrvClient.UpdateGoods(context.Background(), &proto.CreateGoodsInfo{
 		Id:     int32(i),
-		IsHot:  *goodsStatusForm.IsNew,
+		IsHot:  *goodsStatusForm.IsHot,
 		IsNew:  *goodsStatusForm.IsNew,
 		OnSale: *goodsStatusForm.OnSale,
 	}); err != nil {

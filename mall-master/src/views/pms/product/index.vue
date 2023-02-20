@@ -1,4 +1,4 @@
-<template> 
+<template>
   <div class="app-container">
     <el-card class="filter-container" shadow="never">
       <div style="margin-bottom:25px">
@@ -91,26 +91,26 @@
           <template slot-scope="scope">
             <p>上架：
               <el-switch
-                @change="handlePublishStatusChange('sale',scope.$index, scope.row)"
-                :active-value="true"
-                :inactive-value="false"
-                v-model="scope.row.publishStatus">
+                @change="handlePublishStatusChange('sale',!scope.row.on_sale, scope.row)"
+                :active-value=true
+                :inactive-value=false
+                v-model="scope.row.on_sale">
               </el-switch>
             </p>
             <p>新品：
               <el-switch
-                @change="handlePublishStatusChange('new',scope.$index, scope.row)"
-                :active-value="true"
-                :inactive-value="false"
-                v-model="scope.row.newStatus">
+                @change="handlePublishStatusChange('new',!scope.row.is_new, scope.row)"
+                :active-value=true
+                :inactive-value=false
+                v-model="scope.row.is_new">
               </el-switch>
             </p>
             <p>推荐：
               <el-switch
-                @change="handlePublishStatusChange('hot',scope.$index, scope.row)"
-                :active-value="true"
-                :inactive-value="false"
-                v-model="scope.row.recommandStatus">
+                @change="handlePublishStatusChange('hot',!scope.row.is_hot, scope.row)"
+                :active-value=true
+                :inactive-value=false
+                v-model="scope.row.is_hot">
               </el-switch>
             </p>
           </template>
@@ -217,7 +217,7 @@
         operateType: null,
         listQuery: Object.assign({}, defaultListQuery),
         list: null,
-        total: null,
+        total: 0,
         listLoading: true,
         selectProductCateValue: null,
         multipleSelection: [],
@@ -281,12 +281,15 @@
       },
       getList() {
         this.listLoading = true;
-        console.log("start")
-          console.log(this.goodsParams)
-          console.log("end")
+        // console.log("start")
+        // console.log(this.goodsParams)
+        // console.log("end")
         getGoods(this.goodsParams).then(response => {
           this.listLoading = false;
           this.list = response.data;
+          // console.log("start")
+          // console.log(response.data)
+          // console.log("end")
           this.total = response.total;
         });
       },
@@ -397,9 +400,10 @@
         this.multipleSelection = val;
       },
       handlePublishStatusChange(paramname,index, row) {
-          if (index===0) {
+        // console.log(index)
+          if (index===true) {
               this.updatePublishStatus(paramname,false, row);
-          }else if(index===1){
+          }else if(index===false){
               this.updatePublishStatus(paramname,true, row);
           }
 
@@ -451,11 +455,11 @@
         console.log('数据',row)
         let params = {
           'sale':row.on_sale,
-          'hot':row.is_hot,
-          'new':row.is_new
-          
+          'new':row.is_new,
+          'hot':row.is_hot
         }
         params[paramname] = param
+        console.log(params)
         putGoodsStatus(row.id,params).then(response => {
           this.$message({
             message: '修改成功',

@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-let userUrl = "http://39.107.30.137:8021"
+let userUrl = "http://127.0.0.1:8021"
 export function login(params) {
   return request({
     url:userUrl+'/u/v1/user/pwd_login',

@@ -203,19 +203,20 @@ class GoodsServicer(goods_pb2_grpc.GoodsServicer):
     @logger.catch
     def UpdateGoods(self, request: goods_pb2.GoodInfoRequest, context):
         # 商品更新
-        try:
-            category = Category.get(Category.id == request.categoryId)
-        except DoesNotExist as e:
-            context.set_code(grpc.StatusCode.NOT_FOUND)
-            context.set_details("商品分类不存在")
-            return goods_pb2.GoodsInfoResponse()
-
-        try:
-            brand = Brands.get(Brands.id == request.brandId)
-        except DoesNotExist as e:
-            context.set_code(grpc.StatusCode.NOT_FOUND)
-            context.set_details("品牌不存在")
-            return goods_pb2.GoodsInfoResponse()
+        if request.categoryId:
+            try:
+                category = Category.get(Category.id == request.categoryId)
+            except DoesNotExist as e:
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details("商品分类不存在")
+                return goods_pb2.GoodsInfoResponse()
+        if request.brandId:
+            try:
+                brand = Brands.get(Brands.id == request.brandId)
+            except DoesNotExist as e:
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details("品牌不存在")
+                return goods_pb2.GoodsInfoResponse()
 
         try:
             goods = Goods.get(Goods.id == request.id)
@@ -224,20 +225,24 @@ class GoodsServicer(goods_pb2_grpc.GoodsServicer):
             context.set_details("商品不存在")
             return goods_pb2.GoodsInfoResponse()
 
-        goods.brand = brand
-        goods.category = category
-        goods.name = request.name
-        goods.goods_sn = request.goodsSn
-        goods.market_price = request.marketPrice
-        goods.shop_price = request.shopPrice
-        goods.goods_brief = request.goodsBrief
-        goods.ship_free = request.shipFree
-        goods.images = list(request.images)
-        goods.desc_images = list(request.descImages)
-        goods.goods_front_image = request.goodsFrontImage
-        goods.is_new = request.isNew
-        goods.is_hot = request.isHot
-        goods.on_sale = request.onSale
+        if not request.categoryId:
+            # 部分更新
+            goods.is_new = request.isNew
+            goods.is_hot = request.isHot
+            goods.on_sale = request.onSale
+        else:
+            goods.brand = brand
+            goods.category = category
+            goods.name = request.name
+            goods.goods_sn = request.goodsSn
+            goods.market_price = request.marketPrice
+            goods.shop_price = request.shopPrice
+            goods.goods_brief = request.goodsBrief
+            goods.ship_free = request.shipFree
+            goods.images = list(request.images)
+            goods.desc_images = list(request.descImages)
+            goods.goods_front_image = request.goodsFrontImage
+
 
         # 调用save方法时会自动生成id
         goods.save()
@@ -557,9 +562,7 @@ class GoodsServicer(goods_pb2_grpc.GoodsServicer):
             per_page_nums = request.PagePerNums
         if request.pages:
             start = per_page_nums * (request.pages - 1)
-
         category_brands = category_brands.limit(per_page_nums).offset(start)
-
         rsp.total = category_brands.count()
         for category_brand in category_brands:
             category_brand_rsp = goods_pb2.CategoryBrandResponse()

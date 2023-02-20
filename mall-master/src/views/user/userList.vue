@@ -193,8 +193,9 @@
         this.listLoading = true;
         getUserList(this.listQuery).then(response => {
           this.listLoading = false;
-          this.list = this.list.concat(response.data);
-          this.total = response.total;
+          console.log(response)
+          this.list = this.list.concat(response);
+          this.total = response.length;
           this.pageNum  = this.listQuery.pn
           this.listQuery.pn = response.data.length==this.listQuery.pnum?this.listQuery.pn+2:this.listQuery.pn
         });

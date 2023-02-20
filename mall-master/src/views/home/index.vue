@@ -14,7 +14,7 @@
           <div class="out-border">
             <div class="layout-title">前端项目</div>
             <div class="color-main address-content">
-              <a href="">慕学生鲜后台管理系统</a>
+              <a href="">生鲜商城后台管理系统</a>
             </div>
           </div>
         </el-col>
@@ -65,8 +65,8 @@
       <div style="text-align: center">
         <img width="150px" height="150px" src="">
       </div>
-      <div style="text-align: center">mall全套学习教程连载中！</div>
-      <div style="text-align: center;margin-top: 5px"><span class="color-main">关注公号</span>，第一时间获取。</div>
+      <div style="text-align: center">商品持续更新中！</div>
+      <div style="text-align: center;margin-top: 5px"><span class="color-main">关注官网</span>，第一时间获取最新消息。</div>
     </el-card>
     <div class="un-handle-layout">
       <div class="layout-title">待处理事务</div>

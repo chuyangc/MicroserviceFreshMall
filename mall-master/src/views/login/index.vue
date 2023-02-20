@@ -9,7 +9,7 @@
         <div style="text-align: center">
           <svg-icon icon-class="login-mall" style="width: 56px;height: 56px;color: #409EFF"></svg-icon>
         </div>
-        <h2 class="login-title color-main">慕学生鲜-后台管理系统</h2>
+        <h2 class="login-title color-main">生鲜商城-后台管理系统</h2>
         <el-form-item prop="mobile">
           <el-input name="mobile"
                     type="text"
@@ -49,7 +49,7 @@
 
         </el-form-item>
         <el-form-item style="margin-bottom: 30px;text-align: center">
-          <el-tag>用户名/密码: 18782222220/admin123</el-tag>
+          <el-tag>用户名/密码: 18888888880/admin123</el-tag>
         </el-form-item>
         <el-form-item style="margin-bottom: 60px;text-align: center">
           <el-button style="width: 100%" type="primary" :loading="loading" @click="handleLogin">
@@ -69,7 +69,7 @@
       :center="true"
       width="30%">
       <div style="text-align: center">
-        <span class="font-title-large"><span class="color-main font-extra-large">关注公众号</span>回复<span class="color-main font-extra-large">体验</span>获取体验账号</span>
+        <span class="font-title-large"><span class="color-main font-extra-large">关注商城官网</span><span class="color-main font-extra-large">体验</span>获取体验账号</span>
         <br>
         <img src="" width="160" height="160" style="margin-top: 10px">
       </div>
@@ -108,7 +108,7 @@ import Cookies from 'js-cookie'
       };
       return {
         loginForm: {
-          mobile: '18782222220',
+          mobile: '18888888880',
           password: 'admin123',
         },
         loginRules: {
@@ -127,7 +127,7 @@ import Cookies from 'js-cookie'
       this.loginForm.mobile = getCookie("mobile");
       this.loginForm.password = getCookie("password");
       if(this.loginForm.mobile === undefined||this.loginForm.mobile==null||this.loginForm.mobile===''){
-        this.loginForm.mobile = 'admin';
+        this.loginForm.mobile = '18888888880';
       }
       if(this.loginForm.password === undefined||this.loginForm.password==null){
         this.loginForm.password = '';

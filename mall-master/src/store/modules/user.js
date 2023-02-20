@@ -55,7 +55,7 @@ const user = {
           //   reject('getInfo: roles must be a non-null array !')
           // }
           commit('SET_NAME', 'admin')
-          commit('SET_AVATAR', "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg.jpg")
+          commit('SET_AVATAR', "https://static001.geekbang.org/account/avatar/00/25/1a/27/c78fd3d3.jpg?x-oss-process=image/resize,m_fill,h_93,w_93")
           resolve({
             
           })

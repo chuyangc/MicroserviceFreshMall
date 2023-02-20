@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 
-let host = 'http://shop.projectsedu.com';
-let baseUrl = "http://39.107.30.137:8000"
-let goodsUrl = "http://39.107.30.137:8022"
-let orderUrl = "http://39.107.30.137:8023"
-let userUrl = "http://39.107.30.137:8021"
-let userOpUrl = "http://39.107.30.137:8027"
-export let ossUrl = "http://39.107.30.137:8029"
+let host = 'http://127.0.0.1:8000';
+let baseUrl = "http://127.0.0.1:8000"
+let goodsUrl = "http://127.0.0.1:8022"
+let orderUrl = "http://127.0.0.1:8023"
+let userUrl = "http://127.0.0.1:8021"
+let userOpUrl = "http://127.0.0.1:8027"
+export let ossUrl = "http://127.0.0.1:8029"
 // 分类
 export function getCategorys(params) {
   return request({
@@ -314,7 +314,7 @@ export function deleteaddress(id,params) {
 
 export function getUserList(params) {
   return request({
-    url:userUrl+'/u/v1/user',
+    url:userUrl+'/u/v1/user/list',
     method:'get',
     params:params
   })
