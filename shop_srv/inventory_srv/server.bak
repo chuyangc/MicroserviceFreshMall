@@ -11,12 +11,13 @@ import consul
 import grpc
 import nacos
 from loguru import logger
+from rocketmq.client import PushConsumer
 
-from user_srv.proto import user_pb2_grpc
-from user_srv.handler.user import UserServicer
+from inventory_srv.proto import inventory_pb2_grpc
+from inventory_srv.handler.inventory import InventoryServicer, reback_inv
 from common.grpc_health.v1 import health, health_pb2, health_pb2_grpc
 from common.register import consul
-from user_srv.config import settings
+from inventory_srv.config import settings
 
 BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, BASE_DIR)
@@ -57,7 +58,7 @@ def serve():
     parser.add_argument('--ip',
                         nargs="?",
                         type=str,
-                        default="192.168.40.1",
+                        default="192.168.178.1",
                         help="binding ip"
                         )
     parser.add_argument('--port',
@@ -75,12 +76,12 @@ def serve():
     IP = args.ip
     PORT = port
 
-    logger.add("logs/user_srv_{time}.log")
+    logger.add("logs/inventory_srv_{time}.log")
 
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 
-    # 注册用户服务
-    user_pb2_grpc.add_UserServicer_to_server(UserServicer(), server)
+    # 注册库存服务
+    inventory_pb2_grpc.add_InventoryServicer_to_server(InventoryServicer(), server)
 
     # 注册健康检查
     health_pb2_grpc.add_HealthServicer_to_server(health.HealthServicer(), server)
@@ -127,7 +128,15 @@ def serve():
             sys.exit(0)
 
     logger.success(f"服务注册成功-> {settings.SERVICE_NAME}")
+
+    # 启动之后需要监听rocketmq的对应的topic进行库存归还
+    consumer = PushConsumer("shop_inventory")
+    consumer.set_name_server_address(f"{settings.ROCKETMQ_HOST}:{settings.ROCKETMQ_PORT}")
+    consumer.subscribe("order_reback", reback_inv)
+    consumer.start()
+
     server.wait_for_termination()
+    consumer.shutdown()
 
 
 if __name__ == '__main__':

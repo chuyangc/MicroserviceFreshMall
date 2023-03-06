@@ -12,9 +12,9 @@ class ReconnectMysqlDatabase(ReconnectMixin, PooledMySQLDatabase):
 
 
 NACOS = {
-    "Host": "192.168.178.138",
+    "Host": "192.168.178.140",
     "Port": 8848,
-    "NameSpace": "aba31f2f-7bde-4701-b4e1-1b1aa7ee6d35",
+    "NameSpace": "5b3558b0-38c3-4222-a995-4aa79347a4ad",
     "User": "nacos",
     "Password": "nacos",
     "DataId": "userop-srv.json",

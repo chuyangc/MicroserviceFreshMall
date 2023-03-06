@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from peewee import *
+from playhouse.pool import PooledMySQLDatabase
+from playhouse.shortcuts import ReconnectMixin
 
 from inventory_srv.config.settings import DB
 
@@ -70,33 +72,40 @@ class InventoryNew(BaseModel):
 #     order_sn = CharField(verbose_name="订单号")
 #     status = CharField(verbose_name="订单号", default="waitting")
 
-# class InventoryHistory(BaseModel):
-#     # 出库历史表
-#     order_sn = CharField(verbose_name="订单编号", max_length=20, unique=True)
-#     order_inv_detail = CharField(verbose_name="订单详情", max_length=200)
-#     status = IntegerField(choices=((1, "已扣减"), (2, "已归还")), default=1, verbose_name="出库状态")
 
+class InventoryHistory(BaseModel):
+    # 出库历史表
+    order_sn = CharField(verbose_name="订单编号", max_length=20, unique=True)
+    order_inv_detail = CharField(verbose_name="订单详情", max_length=200)
+    status = IntegerField(choices=((1, "已扣减"), (2, "已归还")), default=1, verbose_name="出库状态")
+
+class ReconnectMySQLDatabase(ReconnectMixin, PooledMySQLDatabase):
+    pass
+
+
+db = ReconnectMySQLDatabase("shop_inventory_srv", host="192.168.178.138", port=3306, user="root", password="root")
 
 if __name__ == "__main__":
-    # db.create_tables([Inventory])
+
+    db.create_tables([Inventory, InventoryHistory])
 
     # for i in range(5):
     #     goods_inv = Inventory(goods=i, stocks=100)
     #     goods_inv.save()
-    goods_info = ((1, 2), (2, 3), (3, 19))
+    # goods_info = ((1, 2), (2, 3), (3, 19))
     # #
-    with DB.atomic() as txn:
-        for goods_id, num in goods_info:
-            # 查询库存
-            goods_inv = Inventory.get(Inventory.goods == goods_id)
-            if goods_inv.stocks < num:
-                # 库存不足
-                print(f"{goods_id}:库存不足")
-                txn.rollback()  # 回滚
-                break
-            else:
-                goods_inv.stocks -= num
-                goods_inv.save()
+    # with DB.atomic() as txn:
+    #     for goods_id, num in goods_info:
+    #         # 查询库存
+    #         goods_inv = Inventory.get(Inventory.goods == goods_id)
+    #         if goods_inv.stocks < num:
+    #             # 库存不足
+    #             print(f"{goods_id}:库存不足")
+    #             txn.rollback()  # 回滚
+    #             break
+    #         else:
+    #             goods_inv.stocks -= num
+    #             goods_inv.save()
 
     # for i in range(421, 841):
     #     try:

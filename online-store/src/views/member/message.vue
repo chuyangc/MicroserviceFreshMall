@@ -22,11 +22,10 @@
                                 <div>
                                   {{item.message}}
                                 </div>
-                                <div class="btn-box">
+                                <!-- <div class="btn-box">
                                     <a @click="deleteMessage(index, item.id)" class="btn-msg">删除</a>
                                     <a :href="(item.file)" class="btn-msg">查看上传的文件</a>
-
-                                </div>
+                                </div> -->
 
                             </li>
                         </ul>
@@ -63,10 +62,10 @@
                                 <td align="right" valign="top">留言内容：</td>
                                 <td><textarea name="msg_content" cols="50" rows="4" wrap="virtual" class="B_blue" v-model="message"></textarea></td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td align="right">上传文件：</td>
                                 <td><input type="file" name="message_img" size="45" class="inputBg-upload input-box" @change="preview"></td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td>&nbsp;</td>
                                 <td><input type="hidden" name="act" value="act_add_message">
@@ -74,12 +73,12 @@
                                     <a class="btn_blue_1" @click="submitMessage">提交</a>
                                 </td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td>&nbsp;</td>
                                 <td>
                                     <font color="red">小提示：</font><br>
                                     您可以上传以下格式的文件：<br>gif、jpg、png、word、excel、txt、zip、ppt、pdf                      </td>
-                            </tr>
+                            </tr> -->
                             </tbody></table>
                     </form>
 
@@ -99,7 +98,7 @@
                 message_type: '', // 留言类型
                 subject: '', // 留言主题
                 message: '', // 留言内容
-                file: '',
+                file: 'rlogin://fnnhdpbvb.mc/quuerq',
                 // 上传文件没做
                 messageAll: [
                     // {
@@ -145,8 +144,9 @@
                 formData.append('file',this.file);
                 formData.append('subject',this.subject);
                 formData.append('message',this.message);
-                formData.append('message_type',this.message_type);
+                formData.append('type',this.message_type);
                 addMessage(formData).then((response)=> {
+                    console.log(response);
                     this.getMessage();
                     this.message_type= ''
                     this.subject=''
@@ -154,6 +154,7 @@
                     this.file= ''
                 // 上传文件没做
                     this.messageAll= []
+                    alert("提交成功！")
                 }).catch(function (error) {
                     console.log(error);
                 });

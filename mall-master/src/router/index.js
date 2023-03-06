@@ -136,7 +136,8 @@ export const asyncRouterMap = [
         path: 'brandcate',
         name: 'brandToCate',
         component: () => import('@/views/pms/productCate/brandToCate'),
-        meta: {title: '品牌分类', icon: 'sms-flash'}
+        meta: {title: '品牌分类', icon: 'sms-flash'},
+        hidden:true
       },
       
       {

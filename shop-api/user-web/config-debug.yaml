@@ -1,8 +1,10 @@
 #从配置中心获取配置
-host: '192.168.178.138'
+host: '192.168.178.140'
 port: 8848
-namespace: 'f7f4d603-9f3d-4146-bb9c-83eac2f07233'
+namespace: '3fed807b-c6e0-4a07-a066-3eb82253fdf5'
 user: 'nacos'
 password: 'nacos'
 dataid: 'user-web.json'
 group: 'dev'
+
+#key: 'Y#6v^wdRsQGFjvB8^VQURpSdwpdvMg&V'

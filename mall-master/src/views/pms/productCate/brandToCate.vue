@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  import {getBrandToCate,deleteCategorys,putCategorys,deleteBrandToCate} from '@/apis/goods'
+import {getBrandToCate,deleteCategorys,putCategorys,deleteBrandToCate} from '@/apis/goods'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
   export default {

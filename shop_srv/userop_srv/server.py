@@ -62,7 +62,7 @@ def serve():
     parser.add_argument('--ip',
                         nargs="?",
                         type=str,
-                        default="192.168.178.1",
+                        default="192.168.40.1",
                         help="binding ip"
                         )
     parser.add_argument('--port',

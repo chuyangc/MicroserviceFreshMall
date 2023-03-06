@@ -1,7 +1,7 @@
 #从配置中心获取配置
-host: '192.168.178.138'
+host: '192.168.178.140'
 port: 8848
-namespace: '2ee0038f-df12-4bed-bb02-4a51a3c5f340'
+namespace: 'f85e89ed-0202-45e8-b709-ea870a97bc3a'
 user: 'nacos'
 password: 'nacos'
 dataid: 'order-web.json'

@@ -12,9 +12,9 @@ class ReconnectMysqlDatabase(ReconnectMixin, PooledMySQLDatabase):
 
 
 NACOS = {
-    "Host": "192.168.178.138",
+    "Host": "192.168.178.140",
     "Port": 8848,
-    "NameSpace": "2ee0038f-df12-4bed-bb02-4a51a3c5f340",
+    "NameSpace": "f85e89ed-0202-45e8-b709-ea870a97bc3a",
     "User": "nacos",
     "Password": "nacos",
     "DataId": "order-srv.json",
@@ -38,6 +38,10 @@ def check_update_cfg(args):
 # consul的配置
 CONSUL_HOST = data["consul"]["host"]
 CONSUL_PORT = data["consul"]["port"]
+
+# rocketmq的配置
+# ROCKETMQ_HOST = data["rocketmq"]["host"]
+# ROCKETMQ_PORT = data["rocketmq"]["port"]
 
 # 服务相关的配置
 SERVICE_NAME = data["name"]
