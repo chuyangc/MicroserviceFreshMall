@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/viper"
 	"os"
 	"os/signal"
+	"shop-api/goods-web/middlewares"
 	"shop-api/goods-web/utils"
 	"shop-api/goods-web/utils/register/consul"
 	"syscall"
@@ -32,6 +33,9 @@ func main() {
 
 	//初始化srv的连接
 	initialize.InitConsulLBSrvConn()
+
+	//初始化sentinel
+	middlewares.InitSentinel()
 
 	// 动态端口获取
 	viper.AutomaticEnv()

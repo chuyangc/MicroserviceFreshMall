@@ -2,6 +2,8 @@ package goods
 
 import (
 	"context"
+	sentinel "github.com/alibaba/sentinel-golang/api"
+	"github.com/alibaba/sentinel-golang/core/base"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"net/http"
@@ -58,13 +60,27 @@ func List(c *gin.Context) {
 	brandIdInt, _ := strconv.Atoi(brandId)
 	request.Brand = int32(brandIdInt)
 
-	// 请求商品的service服务、负载均衡
+	// TODO 请求商品的service服务、负载均衡
+
+	// 使用sentinel限流
+	e, b := sentinel.Entry("goods-list", sentinel.WithTrafficType(base.Inbound))
+	
+	if b != nil {
+		// 限流了
+		c.JSON(http.StatusTooManyRequests, gin.H{
+			"msg": "请求过于频繁，请稍后重试",
+		})
+	}
+
 	r, err := global.GoodsSrvClient.GoodsList(context.Background(), request)
 	if err != nil {
 		zap.S().Errorw("[List] 查询 [商品列表]失败")
 		api.HandleGrpcErrorToHttp(err, c)
 		return
 	}
+
+	e.Exit()
+
 	// TODO 此处有待完善，暂时只做了简单处理返回
 	reMap := map[string]interface{}{
 		"total": r.Total,
