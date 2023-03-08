@@ -1,6 +1,6 @@
-# FinalDesign
+# [**MicroserviceFreshMall**](https://github.com/chuyangc/MicroserviceFreshMall)
 
-毕业设计——基于微服务架构的生鲜商城
+基于微服务架构的生鲜商城
 
 ### 目前架构图
 
@@ -10,16 +10,82 @@
 
 Go:1.15
 
+```shell
+# 准备安装目录
+mkdir ~/go && cd ~/go
+# 下载
+wget https://dl.google.com/go/go1.15.10.linux-amd64.tar.gz
+
+# 执行`tar`解压到`/usr/local`目录下（官方推荐）
+tar -C /usr/local -zxvf  go1.15.10.linux-amd64.tar.gz
+
+# 添加/usr/loacl/go/bin目录到PATH变量中。添加到/etc/profile或$HOME/.profile都可以
+vi /etc/profile
+# 在最后一行添加
+export GOROOT=/usr/local/go
+export PATH=$PATH:$GOROOT/bin
+
+source /etc/profile
+
+# 开启go module
+# Global Proxy
+go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.io,direct
+
+# 七牛云
+go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.cn,direct
+```
+
+
+
 Python:3.8.6
+
+```shell
+# 提前安装好系统依赖包：
+#CentOS: 
+sudo yum install -y openssl-devel bzip2-devel expat-devel gdbm-devel readline-devel sqlite-devel gcc gcc-c++  openssl-devel libffi-devel python-devel mariadb-devel
+#Ubuntu:
+sudo apt-get install zlib1g-dev libbz2-dev libssl-dev libncurses5-dev default-libmysqlclient-dev libsqlite3-dev libreadline-dev tk-dev libgdbm-dev libdb-dev libpcap-dev xz-utils libexpat1-dev liblzma-dev libffi-dev libc6-dev
+   
+#1. 获取
+wget https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tgz
+tar -xzvf Python-3.8.6.tgz -C  /tmp
+cd  /tmp/Python-3.8.6/
+#2. 把Python3.8安装到 /usr/local 目录
+./configure --prefix=/usr/local
+make
+make altinstall
+#3. 更改/usr/bin/python链接
+ln -s /usr/local/bin/python3.8 /usr/bin/python3
+ln -s /usr/local/bin/pip3.8 /usr/bin/pip3
+
+# 通过豆瓣镜像下载包
+pip3 install xxx -i http://pypi.douban.com/simple/
+```
+
+
 
 Nodejs:12.18.3
 
 ```shell
+cd ~
+
+wget https://nodejs.org/dist/v12.18.3/node-v12.18.3-linux-x64.tar.xz
+
+tar -xvf node-v12.18.3-linux-x64.tar.xz
+
+ln -s /root/node-v12.18.3-linux-x64/bin/node /usr/bin/node
+ln -s /root/node-v12.18.3-linux-x64/bin/npm /usr/bin/npm
+
+# 测试一下
+node -v
+
 # 安装npmmirror镜像
 npm install -g cnpm --registry=https://registry.npmmirror.com
 ```
 
-
+---
 
 [Yapi](http://yapi.smart-xwork.cn/)
 
@@ -72,13 +138,13 @@ Kong+Konga+Postgres
 
 ```shell
 docker run -d --name kong-database \
-           --network=kong-net \
-           -p 5432:5432 \
-           -e "POSTGRES_USER=kong" \
-           -e "POSTGRES_DB=kong" \
-           -e "POSTGRES_PASSWORD=kong" \
-           -e "POSTGRES_HOST_AUTH_METHOD=trust" \
-           postgres:9.6
+    --network=kong-net \
+    -p 5432:5432 \
+    -e "POSTGRES_USER=kong" \
+    -e "POSTGRES_DB=kong" \
+    -e "POSTGRES_PASSWORD=kong" \
+    -e "POSTGRES_HOST_AUTH_METHOD=trust" \
+    postgres:9.6
 
 docker run --rm \
     --network=kong-net \
@@ -90,24 +156,35 @@ docker run --rm \
     kong:latest kong migrations bootstrap
 
 docker run -d --name kong \
- -e "KONG_DATABASE=postgres" \
- -e "KONG_PG_HOST=192.168.178.140" \
- -e "KONG_DNS_RESOLVER=192.168.178.140:8600" \
- -e "KONG_PG_PASSWORD=kong" \
- -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
- -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
- -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
- -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
- -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
- -e "KONG_ADMIN_LISTEN=0.0.0.0:8001 reuseport backlog=16384, 0.0.0.0:8444 http2 ssl reuseport backlog=16384" \
- -p 8000:8000 \
- -p 8443:8443 \
- -p 8001:8001 \
- -p 8444:8444 \
- kong:latest
+     -e "KONG_DATABASE=postgres" \
+     -e "KONG_PG_HOST=192.168.178.140" \
+     -e "KONG_DNS_RESOLVER=192.168.178.140:8600" \
+     -e "KONG_PG_PASSWORD=kong" \
+     -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
+     -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
+     -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
+     -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
+     -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
+     -e "KONG_ADMIN_LISTEN=0.0.0.0:8001 reuseport backlog=16384, 0.0.0.0:8444 http2 ssl reuseport backlog=16384" \
+     -p 8000:8000 \
+     -p 8443:8443 \
+     -p 8001:8001 \
+     -p 8444:8444 \
+     kong:latest
 
 docker run -d -p 1337:1337 --name konga pantsel/konga
 
 docker container update --restart=always kong konga kong-database
+```
+
+Jaeger
+
+```shell
+docker run \
+      --rm \
+      --name jaeger \
+      -p6831:6831/udp \
+      -p16686:16686 \
+      jaegertracing/all-in-one:latest
 ```
 
